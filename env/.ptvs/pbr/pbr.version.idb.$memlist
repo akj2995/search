@@ -1,0 +1,7 @@
+itertools
+pkg_resources
+operator
+VersionInfo
+_is_int
+SemanticVersion
+sys

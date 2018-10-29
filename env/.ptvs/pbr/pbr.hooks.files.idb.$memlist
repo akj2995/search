@@ -1,0 +1,7 @@
+FilesConfig
+os
+sys
+find_package
+get_manpath
+base
+get_man_section

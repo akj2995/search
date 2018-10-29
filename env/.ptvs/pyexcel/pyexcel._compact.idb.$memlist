@@ -1,0 +1,15 @@
+PY2
+is_generator
+is_string
+text_type
+BytesIO
+types
+is_tuple_consists_of_strings
+request
+deprecated
+PY26
+StringIO
+Iterator
+is_array_type
+OrderedDict
+sys

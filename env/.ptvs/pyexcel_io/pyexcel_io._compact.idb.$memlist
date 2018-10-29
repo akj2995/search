@@ -1,0 +1,13 @@
+PY2
+Iterator
+text_type
+is_generator
+BytesIO
+types
+is_string
+isstream
+PY26
+StringIO
+irange
+OrderedDict
+sys

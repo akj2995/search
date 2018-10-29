@@ -1,0 +1,11 @@
+PY2
+WriteOnlySource
+FILE_TYPE
+is_string
+Source
+SOURCE
+FileSource
+ReadOnlySource
+SourceFactory
+FILE_NAME
+_has_field

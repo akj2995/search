@@ -1,0 +1,10 @@
+PY2
+_xlsx
+sources
+HttpSource
+request
+ReadOnlySource
+FILE_TYPE_MIME_TABLE
+get_file_type_from_url
+params
+get_data

@@ -1,0 +1,893 @@
+2018-06-15 00:00:13,986 ReportChecker INFO Database connected.
+2018-06-15 00:00:14,526 ReportChecker INFO avg_check start
+2018-06-15 00:00:14,526 ReportChecker INFO avg_check query appended
+2018-06-15 00:00:17,357 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 00:02:39,977 ReportChecker INFO avg_check query insert appended
+2018-06-15 00:03:27,101 ReportChecker INFO avg_check insert completed
+2018-06-15 00:04:17,125 ReportChecker INFO avg_check update completed
+2018-06-15 00:04:18,750 ReportChecker INFO Database connected.
+2018-06-15 00:11:19,921 ReportChecker INFO Database connected.
+2018-06-15 00:11:20,443 ReportChecker INFO avg_check start
+2018-06-15 00:11:20,443 ReportChecker INFO avg_check query appended
+2018-06-15 00:11:23,328 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 00:13:45,779 ReportChecker INFO avg_check query insert appended
+2018-06-15 00:14:32,568 ReportChecker INFO avg_check insert completed
+2018-06-15 00:15:23,227 ReportChecker INFO avg_check update completed
+2018-06-15 00:15:25,003 ReportChecker INFO Database connected.
+2018-06-15 00:23:09,563 ReportChecker INFO Database connected.
+2018-06-15 00:23:10,089 ReportChecker INFO avg_check start
+2018-06-15 00:23:10,091 ReportChecker INFO avg_check query appended
+2018-06-15 00:23:14,502 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 00:25:34,650 ReportChecker INFO avg_check query insert appended
+2018-06-15 00:26:21,249 ReportChecker INFO avg_check insert completed
+2018-06-15 00:27:10,029 ReportChecker INFO avg_check update completed
+2018-06-15 00:27:11,654 ReportChecker INFO Database connected.
+2018-06-15 00:34:16,424 ReportChecker INFO Database connected.
+2018-06-15 00:34:16,938 ReportChecker INFO avg_check start
+2018-06-15 00:34:16,938 ReportChecker INFO avg_check query appended
+2018-06-15 00:34:20,006 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 00:36:46,681 ReportChecker INFO avg_check query insert appended
+2018-06-15 00:37:33,180 ReportChecker INFO avg_check insert completed
+2018-06-15 00:38:22,408 ReportChecker INFO avg_check update completed
+2018-06-15 00:38:24,055 ReportChecker INFO Database connected.
+2018-06-15 00:46:03,802 ReportChecker INFO Database connected.
+2018-06-15 00:46:04,280 ReportChecker INFO avg_check start
+2018-06-15 00:46:04,280 ReportChecker INFO avg_check query appended
+2018-06-15 00:46:07,053 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 00:48:24,848 ReportChecker INFO avg_check query insert appended
+2018-06-15 00:49:11,503 ReportChecker INFO avg_check insert completed
+2018-06-15 00:50:00,157 ReportChecker INFO avg_check update completed
+2018-06-15 00:50:01,825 ReportChecker INFO Database connected.
+2018-06-15 00:57:11,644 ReportChecker INFO Database connected.
+2018-06-15 00:57:12,170 ReportChecker INFO avg_check start
+2018-06-15 00:57:12,171 ReportChecker INFO avg_check query appended
+2018-06-15 00:57:15,040 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 00:59:48,401 ReportChecker INFO avg_check query insert appended
+2018-06-15 01:00:40,030 ReportChecker INFO avg_check insert completed
+2018-06-15 01:01:34,328 ReportChecker INFO avg_check update completed
+2018-06-15 01:01:36,125 ReportChecker INFO Database connected.
+2018-06-15 01:09:20,332 ReportChecker INFO Database connected.
+2018-06-15 01:09:20,898 ReportChecker INFO avg_check start
+2018-06-15 01:09:20,898 ReportChecker INFO avg_check query appended
+2018-06-15 01:09:23,627 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 01:11:42,134 ReportChecker INFO avg_check query insert appended
+2018-06-15 01:12:28,621 ReportChecker INFO avg_check insert completed
+2018-06-15 01:13:18,062 ReportChecker INFO avg_check update completed
+2018-06-15 01:13:19,848 ReportChecker INFO Database connected.
+2018-06-15 01:21:07,144 ReportChecker INFO Database connected.
+2018-06-15 01:21:07,664 ReportChecker INFO avg_check start
+2018-06-15 01:21:07,664 ReportChecker INFO avg_check query appended
+2018-06-15 01:21:10,664 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 01:23:29,232 ReportChecker INFO avg_check query insert appended
+2018-06-15 01:24:16,161 ReportChecker INFO avg_check insert completed
+2018-06-15 01:25:05,115 ReportChecker INFO avg_check update completed
+2018-06-15 01:25:06,938 ReportChecker INFO Database connected.
+2018-06-15 01:32:18,776 ReportChecker INFO Database connected.
+2018-06-15 01:32:19,345 ReportChecker INFO avg_check start
+2018-06-15 01:32:19,345 ReportChecker INFO avg_check query appended
+2018-06-15 01:32:22,438 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 01:34:55,838 ReportChecker INFO avg_check query insert appended
+2018-06-15 01:35:46,973 ReportChecker INFO avg_check insert completed
+2018-06-15 01:36:41,706 ReportChecker INFO avg_check update completed
+2018-06-15 01:36:43,394 ReportChecker INFO Database connected.
+2018-06-15 01:44:12,321 ReportChecker INFO Database connected.
+2018-06-15 01:44:12,924 ReportChecker INFO avg_check start
+2018-06-15 01:44:12,926 ReportChecker INFO avg_check query appended
+2018-06-15 01:44:15,891 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 01:46:49,309 ReportChecker INFO avg_check query insert appended
+2018-06-15 01:51:51,444 ReportChecker INFO avg_check insert completed
+2018-06-15 01:51:52,252 ReportChecker INFO avg_check update completed
+2018-06-15 01:51:53,979 ReportChecker INFO Database connected.
+2018-06-15 01:59:06,463 ReportChecker INFO Database connected.
+2018-06-15 01:59:07,046 ReportChecker INFO avg_check start
+2018-06-15 01:59:07,046 ReportChecker INFO avg_check query appended
+2018-06-15 01:59:09,980 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 02:01:44,157 ReportChecker INFO avg_check query insert appended
+2018-06-15 02:06:36,690 ReportChecker INFO avg_check insert completed
+2018-06-15 02:06:37,736 ReportChecker INFO avg_check update completed
+2018-06-15 02:06:39,957 ReportChecker INFO Database connected.
+2018-06-15 02:14:28,658 ReportChecker INFO Database connected.
+2018-06-15 02:14:29,217 ReportChecker INFO avg_check start
+2018-06-15 02:14:29,217 ReportChecker INFO avg_check query appended
+2018-06-15 02:14:32,180 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 02:17:04,612 ReportChecker INFO avg_check query insert appended
+2018-06-15 02:22:04,568 ReportChecker INFO avg_check insert completed
+2018-06-15 02:22:05,463 ReportChecker INFO avg_check update completed
+2018-06-15 02:22:07,174 ReportChecker INFO Database connected.
+2018-06-15 02:29:17,523 ReportChecker INFO Database connected.
+2018-06-15 02:29:18,125 ReportChecker INFO avg_check start
+2018-06-15 02:29:18,125 ReportChecker INFO avg_check query appended
+2018-06-15 02:29:21,145 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 02:31:39,848 ReportChecker INFO avg_check query insert appended
+2018-06-15 02:36:10,591 ReportChecker INFO avg_check insert completed
+2018-06-15 02:36:11,724 ReportChecker INFO avg_check update completed
+2018-06-15 02:36:13,417 ReportChecker INFO Database connected.
+2018-06-15 02:43:41,500 ReportChecker INFO Database connected.
+2018-06-15 02:43:42,144 ReportChecker INFO avg_check start
+2018-06-15 02:43:42,144 ReportChecker INFO avg_check query appended
+2018-06-15 02:43:45,049 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 02:46:03,928 ReportChecker INFO avg_check query insert appended
+2018-06-15 02:50:34,907 ReportChecker INFO avg_check insert completed
+2018-06-15 02:50:35,881 ReportChecker INFO avg_check update completed
+2018-06-15 02:50:40,163 ReportChecker INFO Database connected.
+2018-06-15 02:57:46,941 ReportChecker INFO Database connected.
+2018-06-15 02:57:47,575 ReportChecker INFO avg_check start
+2018-06-15 02:57:47,576 ReportChecker INFO avg_check query appended
+2018-06-15 02:57:50,357 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 03:00:12,122 ReportChecker INFO avg_check query insert appended
+2018-06-15 03:04:45,088 ReportChecker INFO avg_check insert completed
+2018-06-15 03:04:45,963 ReportChecker INFO avg_check update completed
+2018-06-15 03:04:47,661 ReportChecker INFO Database connected.
+2018-06-15 03:12:00,151 ReportChecker INFO Database connected.
+2018-06-15 03:12:00,744 ReportChecker INFO avg_check start
+2018-06-15 03:12:00,746 ReportChecker INFO avg_check query appended
+2018-06-15 03:12:03,924 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 03:14:36,082 ReportChecker INFO avg_check query insert appended
+2018-06-15 03:19:34,361 ReportChecker INFO avg_check insert completed
+2018-06-15 03:19:35,378 ReportChecker INFO avg_check update completed
+2018-06-15 03:19:37,072 ReportChecker INFO Database connected.
+2018-06-15 03:26:40,342 ReportChecker INFO Database connected.
+2018-06-15 03:26:40,861 ReportChecker INFO avg_check start
+2018-06-15 03:26:40,862 ReportChecker INFO avg_check query appended
+2018-06-15 03:26:43,641 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 03:29:02,236 ReportChecker INFO avg_check query insert appended
+2018-06-15 03:33:33,795 ReportChecker INFO avg_check insert completed
+2018-06-15 03:33:34,650 ReportChecker INFO avg_check update completed
+2018-06-15 03:33:36,348 ReportChecker INFO Database connected.
+2018-06-15 03:40:43,378 ReportChecker INFO Database connected.
+2018-06-15 03:40:43,888 ReportChecker INFO avg_check start
+2018-06-15 03:40:43,890 ReportChecker INFO avg_check query appended
+2018-06-15 03:40:46,930 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 03:43:20,282 ReportChecker INFO avg_check query insert appended
+2018-06-15 03:48:17,891 ReportChecker INFO avg_check insert completed
+2018-06-15 03:48:18,862 ReportChecker INFO avg_check update completed
+2018-06-15 03:48:20,569 ReportChecker INFO Database connected.
+2018-06-15 03:55:33,783 ReportChecker INFO Database connected.
+2018-06-15 03:55:34,346 ReportChecker INFO avg_check start
+2018-06-15 03:55:34,346 ReportChecker INFO avg_check query appended
+2018-06-15 03:55:44,246 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 03:58:02,782 ReportChecker INFO avg_check query insert appended
+2018-06-15 04:02:34,698 ReportChecker INFO avg_check insert completed
+2018-06-15 04:02:35,581 ReportChecker INFO avg_check update completed
+2018-06-15 04:02:37,260 ReportChecker INFO Database connected.
+2018-06-15 04:09:44,657 ReportChecker INFO Database connected.
+2018-06-15 04:09:45,177 ReportChecker INFO avg_check start
+2018-06-15 04:09:45,177 ReportChecker INFO avg_check query appended
+2018-06-15 04:09:48,101 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 04:12:06,540 ReportChecker INFO avg_check query insert appended
+2018-06-15 04:16:38,982 ReportChecker INFO avg_check insert completed
+2018-06-15 04:16:39,795 ReportChecker INFO avg_check update completed
+2018-06-15 04:16:41,469 ReportChecker INFO Database connected.
+2018-06-15 04:23:51,354 ReportChecker INFO Database connected.
+2018-06-15 04:23:51,880 ReportChecker INFO avg_check start
+2018-06-15 04:23:51,881 ReportChecker INFO avg_check query appended
+2018-06-15 04:23:55,227 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 04:26:15,403 ReportChecker INFO avg_check query insert appended
+2018-06-15 04:30:50,519 ReportChecker INFO avg_check insert completed
+2018-06-15 04:30:51,424 ReportChecker INFO avg_check update completed
+2018-06-15 04:30:53,119 ReportChecker INFO Database connected.
+2018-06-15 04:38:03,431 ReportChecker INFO Database connected.
+2018-06-15 04:38:03,963 ReportChecker INFO avg_check start
+2018-06-15 04:38:03,963 ReportChecker INFO avg_check query appended
+2018-06-15 04:38:06,668 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 04:40:25,579 ReportChecker INFO avg_check query insert appended
+2018-06-15 04:44:57,825 ReportChecker INFO avg_check insert completed
+2018-06-15 04:44:58,690 ReportChecker INFO avg_check update completed
+2018-06-15 04:45:00,369 ReportChecker INFO Database connected.
+2018-06-15 04:52:09,191 ReportChecker INFO Database connected.
+2018-06-15 04:52:09,713 ReportChecker INFO avg_check start
+2018-06-15 04:52:09,713 ReportChecker INFO avg_check query appended
+2018-06-15 04:52:12,543 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 04:54:33,105 ReportChecker INFO avg_check query insert appended
+2018-06-15 04:59:03,736 ReportChecker INFO avg_check insert completed
+2018-06-15 04:59:04,619 ReportChecker INFO avg_check update completed
+2018-06-15 04:59:06,322 ReportChecker INFO Database connected.
+2018-06-15 05:06:19,664 ReportChecker INFO Database connected.
+2018-06-15 05:06:20,220 ReportChecker INFO avg_check start
+2018-06-15 05:06:20,220 ReportChecker INFO avg_check query appended
+2018-06-15 05:06:22,947 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 05:08:42,513 ReportChecker INFO avg_check query insert appended
+2018-06-15 05:13:15,387 ReportChecker INFO avg_check insert completed
+2018-06-15 05:13:16,247 ReportChecker INFO avg_check update completed
+2018-06-15 05:13:17,937 ReportChecker INFO Database connected.
+2018-06-15 05:20:31,579 ReportChecker INFO Database connected.
+2018-06-15 05:20:32,099 ReportChecker INFO avg_check start
+2018-06-15 05:20:32,099 ReportChecker INFO avg_check query appended
+2018-06-15 05:20:35,002 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 05:22:55,588 ReportChecker INFO avg_check query insert appended
+2018-06-15 05:27:31,210 ReportChecker INFO avg_check insert completed
+2018-06-15 05:27:32,081 ReportChecker INFO avg_check update completed
+2018-06-15 05:27:33,930 ReportChecker INFO Database connected.
+2018-06-15 05:35:19,897 ReportChecker INFO Database connected.
+2018-06-15 05:35:20,410 ReportChecker INFO avg_check start
+2018-06-15 05:35:20,411 ReportChecker INFO avg_check query appended
+2018-06-15 05:35:23,352 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 05:37:49,845 ReportChecker INFO avg_check query insert appended
+2018-06-15 05:42:23,181 ReportChecker INFO avg_check insert completed
+2018-06-15 05:42:24,039 ReportChecker INFO avg_check update completed
+2018-06-15 05:42:25,720 ReportChecker INFO Database connected.
+2018-06-15 05:49:37,068 ReportChecker INFO Database connected.
+2018-06-15 05:49:37,621 ReportChecker INFO avg_check start
+2018-06-15 05:49:37,621 ReportChecker INFO avg_check query appended
+2018-06-15 05:49:40,621 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 05:52:00,371 ReportChecker INFO avg_check query insert appended
+2018-06-15 05:56:33,503 ReportChecker INFO avg_check insert completed
+2018-06-15 05:56:34,569 ReportChecker INFO avg_check update completed
+2018-06-15 05:56:36,276 ReportChecker INFO Database connected.
+2018-06-15 06:03:44,344 ReportChecker INFO Database connected.
+2018-06-15 06:03:44,877 ReportChecker INFO avg_check start
+2018-06-15 06:03:44,878 ReportChecker INFO avg_check query appended
+2018-06-15 06:03:48,036 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 06:06:10,187 ReportChecker INFO avg_check query insert appended
+2018-06-15 06:10:46,687 ReportChecker INFO avg_check insert completed
+2018-06-15 06:10:47,713 ReportChecker INFO avg_check update completed
+2018-06-15 06:10:49,397 ReportChecker INFO Database connected.
+2018-06-15 06:18:03,148 ReportChecker INFO Database connected.
+2018-06-15 06:18:03,670 ReportChecker INFO avg_check start
+2018-06-15 06:18:03,670 ReportChecker INFO avg_check query appended
+2018-06-15 06:18:06,536 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 06:20:24,940 ReportChecker INFO avg_check query insert appended
+2018-06-15 06:24:52,572 ReportChecker INFO avg_check insert completed
+2018-06-15 06:24:53,568 ReportChecker INFO avg_check update completed
+2018-06-15 06:24:55,237 ReportChecker INFO Database connected.
+2018-06-15 06:32:04,660 ReportChecker INFO Database connected.
+2018-06-15 06:32:05,142 ReportChecker INFO avg_check start
+2018-06-15 06:32:05,144 ReportChecker INFO avg_check query appended
+2018-06-15 06:32:08,390 ReportChecker INFO avg_check query sql_ave selected
+2018-06-15 06:34:27,213 ReportChecker INFO avg_check query insert appended
+2018-06-15 06:38:58,528 ReportChecker INFO avg_check insert completed
+2018-06-15 06:38:59,417 ReportChecker INFO avg_check update completed
+2018-06-15 06:39:01,095 ReportChecker INFO Database connected.
+2018-06-21 17:00:39,335 ReportChecker INFO Database connected.
+2018-06-21 17:04:07,437 ReportChecker INFO Database connected.
+2018-06-21 17:10:01,243 ReportChecker INFO Database connected.
+2018-06-21 17:14:53,000 ReportChecker INFO Database connected.
+2018-06-21 17:19:06,368 ReportChecker INFO Database connected.
+2018-06-21 17:22:50,259 ReportChecker INFO Database connected.
+2018-06-21 17:26:01,421 ReportChecker INFO Database connected.
+2018-06-21 17:47:22,607 ReportChecker INFO Database connected.
+2018-06-21 17:53:44,049 ReportChecker INFO Database connected.
+2018-06-21 20:08:37,990 ReportChecker INFO Database connected.
+2018-07-08 14:31:35,808 ReportChecker INFO Database connected.
+2018-07-08 14:32:07,763 ReportChecker INFO Database connected.
+2018-07-08 14:32:29,772 ReportChecker INFO Database connected.
+2018-07-08 14:35:32,956 ReportChecker INFO Database connected.
+2018-07-08 14:36:27,302 ReportChecker INFO Database connected.
+2018-07-08 14:37:22,671 ReportChecker INFO Database connected.
+2018-07-08 14:37:47,638 ReportChecker INFO Database connected.
+2018-07-08 14:38:54,812 ReportChecker INFO Database connected.
+2018-07-08 14:42:19,509 ReportChecker INFO Database connected.
+2018-07-08 14:42:53,640 ReportChecker INFO Database connected.
+2018-07-08 14:43:20,250 ReportChecker INFO Database connected.
+2018-07-08 14:44:46,506 ReportChecker INFO Database connected.
+2018-07-08 14:45:22,861 ReportChecker INFO Database connected.
+2018-07-08 14:46:20,418 ReportChecker INFO Database connected.
+2018-07-08 14:48:41,226 ReportChecker INFO Database connected.
+2018-07-08 14:49:41,615 ReportChecker INFO Database connected.
+2018-07-08 14:53:09,854 ReportChecker INFO Database connected.
+2018-07-08 14:56:05,960 ReportChecker INFO Database connected.
+2018-07-08 14:58:08,160 ReportChecker INFO Database connected.
+2018-07-08 14:58:33,038 ReportChecker INFO Database connected.
+2018-07-08 15:00:44,680 ReportChecker INFO Database connected.
+2018-07-08 15:03:43,414 ReportChecker INFO Database connected.
+2018-07-08 15:04:07,280 ReportChecker INFO Database connected.
+2018-07-08 15:15:40,482 ReportChecker INFO Database connected.
+2018-07-08 15:17:19,621 ReportChecker INFO Database connected.
+2018-07-08 15:21:07,151 ReportChecker INFO Database connected.
+2018-07-08 15:22:21,444 ReportChecker INFO Database connected.
+2018-07-08 15:23:15,881 ReportChecker INFO Database connected.
+2018-07-08 15:24:23,071 ReportChecker INFO Database connected.
+2018-07-21 19:14:02,737 ReportChecker INFO Database connected.
+2018-07-22 19:25:05,477 ReportChecker INFO Database connected.
+2018-07-22 19:25:07,315 ReportChecker INFO avg_check start
+2018-07-22 19:25:07,315 ReportChecker INFO avg_check query appended
+2018-07-22 19:25:08,572 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:25:10,917 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:25:15,569 ReportChecker INFO avg_check insert completed
+2018-07-22 19:25:17,565 ReportChecker INFO avg_check update completed
+2018-07-22 19:27:56,476 ReportChecker INFO Database connected.
+2018-07-22 19:27:57,851 ReportChecker INFO avg_check start
+2018-07-22 19:27:57,851 ReportChecker INFO avg_check query appended
+2018-07-22 19:27:58,845 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:28:00,229 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:28:02,401 ReportChecker INFO avg_check insert completed
+2018-07-22 19:28:04,256 ReportChecker INFO avg_check update completed
+2018-07-22 19:28:04,319 ReportChecker INFO Database connected.
+2018-07-22 19:28:05,349 ReportChecker INFO avg_check start
+2018-07-22 19:28:05,351 ReportChecker INFO avg_check query appended
+2018-07-22 19:28:06,352 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:28:07,740 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:28:08,667 ReportChecker INFO avg_check insert completed
+2018-07-22 19:28:11,584 ReportChecker INFO avg_check update completed
+2018-07-22 19:30:29,163 ReportChecker INFO Database connected.
+2018-07-22 19:30:30,941 ReportChecker INFO avg_check start
+2018-07-22 19:30:30,943 ReportChecker INFO avg_check query appended
+2018-07-22 19:30:32,207 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:30:34,427 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:30:39,319 ReportChecker INFO avg_check insert completed
+2018-07-22 19:30:41,221 ReportChecker INFO avg_check update completed
+2018-07-22 19:30:41,286 ReportChecker INFO Database connected.
+2018-07-22 19:30:42,250 ReportChecker INFO avg_check start
+2018-07-22 19:30:42,250 ReportChecker INFO avg_check query appended
+2018-07-22 19:30:43,410 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:30:45,799 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:30:50,849 ReportChecker INFO avg_check insert completed
+2018-07-22 19:30:52,812 ReportChecker INFO avg_check update completed
+2018-07-22 19:30:52,815 ReportChecker INFO Database connected.
+2018-07-22 19:30:53,835 ReportChecker INFO avg_check start
+2018-07-22 19:30:53,835 ReportChecker INFO avg_check query appended
+2018-07-22 19:30:55,098 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:30:57,736 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:31:02,956 ReportChecker INFO avg_check insert completed
+2018-07-22 19:31:05,940 ReportChecker INFO avg_check update completed
+2018-07-22 19:31:06,005 ReportChecker INFO Database connected.
+2018-07-22 19:31:07,210 ReportChecker INFO avg_check start
+2018-07-22 19:31:07,210 ReportChecker INFO avg_check query appended
+2018-07-22 19:31:08,973 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:31:11,140 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:31:13,723 ReportChecker INFO avg_check insert completed
+2018-07-22 19:31:16,026 ReportChecker INFO avg_check update completed
+2018-07-22 19:31:16,032 ReportChecker INFO Database connected.
+2018-07-22 19:31:16,970 ReportChecker INFO avg_check start
+2018-07-22 19:31:16,970 ReportChecker INFO avg_check query appended
+2018-07-22 19:31:17,976 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:31:19,306 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:31:21,732 ReportChecker INFO avg_check insert completed
+2018-07-22 19:31:23,631 ReportChecker INFO avg_check update completed
+2018-07-22 19:31:23,634 ReportChecker INFO Database connected.
+2018-07-22 19:31:24,578 ReportChecker INFO avg_check start
+2018-07-22 19:31:24,578 ReportChecker INFO avg_check query appended
+2018-07-22 19:31:26,052 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:31:27,348 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:31:29,526 ReportChecker INFO avg_check insert completed
+2018-07-22 19:31:31,496 ReportChecker INFO avg_check update completed
+2018-07-22 19:31:31,502 ReportChecker INFO Database connected.
+2018-07-22 19:31:32,415 ReportChecker INFO avg_check start
+2018-07-22 19:31:32,417 ReportChecker INFO avg_check query appended
+2018-07-22 19:31:33,387 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:31:34,931 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:31:37,430 ReportChecker INFO avg_check insert completed
+2018-07-22 19:31:39,427 ReportChecker INFO avg_check update completed
+2018-07-22 19:31:39,430 ReportChecker INFO Database connected.
+2018-07-22 19:31:40,375 ReportChecker INFO avg_check start
+2018-07-22 19:31:40,375 ReportChecker INFO avg_check query appended
+2018-07-22 19:31:41,420 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:31:42,796 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:31:44,832 ReportChecker INFO avg_check insert completed
+2018-07-22 19:31:46,723 ReportChecker INFO avg_check update completed
+2018-07-22 19:31:46,727 ReportChecker INFO Database connected.
+2018-07-22 19:31:47,663 ReportChecker INFO avg_check start
+2018-07-22 19:31:47,664 ReportChecker INFO avg_check query appended
+2018-07-22 19:31:48,655 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:31:50,651 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:31:51,578 ReportChecker INFO avg_check insert completed
+2018-07-22 19:31:54,259 ReportChecker INFO avg_check update completed
+2018-07-22 19:31:54,263 ReportChecker INFO Database connected.
+2018-07-22 19:31:55,204 ReportChecker INFO avg_check start
+2018-07-22 19:31:55,206 ReportChecker INFO avg_check query appended
+2018-07-22 19:31:56,197 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:31:57,673 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:31:58,673 ReportChecker INFO avg_check insert completed
+2018-07-22 19:32:01,253 ReportChecker INFO avg_check update completed
+2018-07-22 19:32:38,818 ReportChecker INFO Database connected.
+2018-07-22 19:32:40,493 ReportChecker INFO avg_check start
+2018-07-22 19:32:40,494 ReportChecker INFO avg_check query appended
+2018-07-22 19:32:41,549 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:32:42,921 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:32:45,269 ReportChecker INFO avg_check insert completed
+2018-07-22 19:32:47,237 ReportChecker INFO avg_check update completed
+2018-07-22 19:32:47,299 ReportChecker INFO Database connected.
+2018-07-22 19:32:48,250 ReportChecker INFO avg_check start
+2018-07-22 19:32:48,250 ReportChecker INFO avg_check query appended
+2018-07-22 19:32:49,319 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:32:51,012 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:32:53,292 ReportChecker INFO avg_check insert completed
+2018-07-22 19:32:55,132 ReportChecker INFO avg_check update completed
+2018-07-22 19:32:55,137 ReportChecker INFO Database connected.
+2018-07-22 19:32:56,137 ReportChecker INFO avg_check start
+2018-07-22 19:32:56,138 ReportChecker INFO avg_check query appended
+2018-07-22 19:32:57,252 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:32:59,052 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:33:01,506 ReportChecker INFO avg_check insert completed
+2018-07-22 19:33:03,352 ReportChecker INFO avg_check update completed
+2018-07-22 19:33:03,473 ReportChecker INFO Database connected.
+2018-07-22 19:33:04,447 ReportChecker INFO avg_check start
+2018-07-22 19:33:04,448 ReportChecker INFO avg_check query appended
+2018-07-22 19:33:05,536 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:33:07,157 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:33:09,404 ReportChecker INFO avg_check insert completed
+2018-07-22 19:33:11,265 ReportChecker INFO avg_check update completed
+2018-07-22 19:33:11,269 ReportChecker INFO Database connected.
+2018-07-22 19:33:12,198 ReportChecker INFO avg_check start
+2018-07-22 19:33:12,198 ReportChecker INFO avg_check query appended
+2018-07-22 19:33:13,299 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:33:15,227 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:33:17,418 ReportChecker INFO avg_check insert completed
+2018-07-22 19:33:19,329 ReportChecker INFO avg_check update completed
+2018-07-22 19:33:19,334 ReportChecker INFO Database connected.
+2018-07-22 19:33:20,296 ReportChecker INFO avg_check start
+2018-07-22 19:33:20,296 ReportChecker INFO avg_check query appended
+2018-07-22 19:33:21,431 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:33:23,191 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:33:25,426 ReportChecker INFO avg_check insert completed
+2018-07-22 19:33:27,329 ReportChecker INFO avg_check update completed
+2018-07-22 19:33:27,361 ReportChecker INFO Database connected.
+2018-07-22 19:33:28,292 ReportChecker INFO avg_check start
+2018-07-22 19:33:28,293 ReportChecker INFO avg_check query appended
+2018-07-22 19:33:29,410 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:33:31,476 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:33:33,678 ReportChecker INFO avg_check insert completed
+2018-07-22 19:33:35,595 ReportChecker INFO avg_check update completed
+2018-07-22 19:33:35,598 ReportChecker INFO Database connected.
+2018-07-22 19:33:36,602 ReportChecker INFO avg_check start
+2018-07-22 19:33:36,604 ReportChecker INFO avg_check query appended
+2018-07-22 19:33:37,641 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:33:40,176 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:33:44,286 ReportChecker INFO avg_check insert completed
+2018-07-22 19:33:46,250 ReportChecker INFO avg_check update completed
+2018-07-22 19:33:46,263 ReportChecker INFO Database connected.
+2018-07-22 19:33:47,361 ReportChecker INFO avg_check start
+2018-07-22 19:33:47,361 ReportChecker INFO avg_check query appended
+2018-07-22 19:33:48,638 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:33:50,993 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:33:55,961 ReportChecker INFO avg_check insert completed
+2018-07-22 19:34:03,749 ReportChecker INFO avg_check update completed
+2018-07-22 19:34:03,828 ReportChecker INFO Database connected.
+2018-07-22 19:34:04,802 ReportChecker INFO avg_check start
+2018-07-22 19:34:04,802 ReportChecker INFO avg_check query appended
+2018-07-22 19:34:05,951 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:34:08,796 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:34:14,071 ReportChecker INFO avg_check insert completed
+2018-07-22 19:34:15,956 ReportChecker INFO avg_check update completed
+2018-07-22 19:34:15,960 ReportChecker INFO Database connected.
+2018-07-22 19:34:16,898 ReportChecker INFO avg_check start
+2018-07-22 19:34:16,898 ReportChecker INFO avg_check query appended
+2018-07-22 19:34:18,033 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:34:21,395 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:34:26,484 ReportChecker INFO avg_check insert completed
+2018-07-22 19:34:28,395 ReportChecker INFO avg_check update completed
+2018-07-22 19:34:28,460 ReportChecker INFO Database connected.
+2018-07-22 19:34:29,391 ReportChecker INFO avg_check start
+2018-07-22 19:34:29,392 ReportChecker INFO avg_check query appended
+2018-07-22 19:34:30,391 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:34:32,187 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:34:34,674 ReportChecker INFO avg_check insert completed
+2018-07-22 19:34:36,546 ReportChecker INFO avg_check update completed
+2018-07-22 19:34:36,549 ReportChecker INFO Database connected.
+2018-07-22 19:34:37,566 ReportChecker INFO avg_check start
+2018-07-22 19:34:37,568 ReportChecker INFO avg_check query appended
+2018-07-22 19:34:38,635 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:34:40,539 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:34:42,763 ReportChecker INFO avg_check insert completed
+2018-07-22 19:34:44,861 ReportChecker INFO avg_check update completed
+2018-07-22 19:34:44,865 ReportChecker INFO Database connected.
+2018-07-22 19:34:45,927 ReportChecker INFO avg_check start
+2018-07-22 19:34:45,930 ReportChecker INFO avg_check query appended
+2018-07-22 19:34:47,059 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:34:49,336 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:34:51,469 ReportChecker INFO avg_check insert completed
+2018-07-22 19:34:53,697 ReportChecker INFO avg_check update completed
+2018-07-22 19:34:56,088 ReportChecker INFO Database connected.
+2018-07-22 19:34:57,062 ReportChecker INFO avg_check start
+2018-07-22 19:34:57,243 ReportChecker INFO avg_check query appended
+2018-07-22 19:34:58,352 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:35:03,664 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:35:07,829 ReportChecker INFO avg_check insert completed
+2018-07-22 19:35:10,085 ReportChecker INFO avg_check update completed
+2018-07-22 19:35:10,089 ReportChecker INFO Database connected.
+2018-07-22 19:35:11,292 ReportChecker INFO avg_check start
+2018-07-22 19:35:13,161 ReportChecker INFO avg_check query appended
+2018-07-22 19:35:14,657 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:35:19,670 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:35:21,954 ReportChecker INFO avg_check insert completed
+2018-07-22 19:35:25,676 ReportChecker INFO avg_check update completed
+2018-07-22 19:35:25,684 ReportChecker INFO Database connected.
+2018-07-22 19:35:27,180 ReportChecker INFO avg_check start
+2018-07-22 19:35:27,181 ReportChecker INFO avg_check query appended
+2018-07-22 19:35:28,220 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:35:30,549 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:35:37,313 ReportChecker INFO avg_check insert completed
+2018-07-22 19:35:39,796 ReportChecker INFO avg_check update completed
+2018-07-22 19:35:42,259 ReportChecker INFO Database connected.
+2018-07-22 19:35:43,229 ReportChecker INFO avg_check start
+2018-07-22 19:35:43,229 ReportChecker INFO avg_check query appended
+2018-07-22 19:35:44,476 ReportChecker INFO avg_check query sql_ave selected
+2018-07-22 19:35:51,243 ReportChecker INFO avg_check query insert appended
+2018-07-22 19:35:55,658 ReportChecker INFO avg_check insert completed
+2018-07-22 19:35:58,624 ReportChecker INFO avg_check update completed
+2018-07-22 19:35:59,125 ReportChecker INFO Database connected.
+2018-07-22 19:36:00,226 ReportChecker INFO avg_check start
+2018-07-22 19:36:00,253 ReportChecker INFO avg_check query appended
+2018-07-22 19:36:01,405 ReportChecker INFO avg_check query sql_ave selected
+2018-07-28 17:46:13,480 ReportChecker INFO Database connected.
+2018-07-29 16:08:55,276 ReportChecker INFO Database connected.
+2018-07-29 16:08:55,276 ReportChecker INFO avg_check start
+2018-07-29 16:08:55,278 ReportChecker INFO avg_check query appended
+2018-07-29 16:08:55,362 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:08:55,681 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:08:56,778 ReportChecker INFO avg_check insert completed
+2018-07-29 16:08:56,778 ReportChecker INFO avg_check update completed
+2018-07-29 16:11:23,470 ReportChecker INFO Database connected.
+2018-07-29 16:11:23,470 ReportChecker INFO avg_check start
+2018-07-29 16:11:23,470 ReportChecker INFO avg_check query appended
+2018-07-29 16:11:23,584 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:11:24,299 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:11:24,299 ReportChecker INFO avg_check insert completed
+2018-07-29 16:11:24,301 ReportChecker INFO avg_check update completed
+2018-07-29 16:15:54,032 ReportChecker INFO Database connected.
+2018-07-29 16:15:54,032 ReportChecker INFO avg_check start
+2018-07-29 16:15:54,033 ReportChecker INFO avg_check query appended
+2018-07-29 16:15:54,109 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:15:54,688 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:15:54,690 ReportChecker INFO avg_check insert completed
+2018-07-29 16:15:54,691 ReportChecker INFO avg_check update completed
+2018-07-29 16:15:58,882 ReportChecker INFO Database connected.
+2018-07-29 16:15:58,882 ReportChecker INFO avg_check start
+2018-07-29 16:15:58,884 ReportChecker INFO avg_check query appended
+2018-07-29 16:15:58,951 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:15:59,372 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:15:59,372 ReportChecker INFO avg_check insert completed
+2018-07-29 16:15:59,374 ReportChecker INFO avg_check update completed
+2018-07-29 16:16:50,466 ReportChecker INFO Database connected.
+2018-07-29 16:16:50,466 ReportChecker INFO avg_check start
+2018-07-29 16:16:50,467 ReportChecker INFO avg_check query appended
+2018-07-29 16:16:50,523 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:16:51,121 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:16:51,122 ReportChecker INFO avg_check insert completed
+2018-07-29 16:16:52,072 ReportChecker INFO avg_check update completed
+2018-07-29 16:20:21,078 ReportChecker INFO Database connected.
+2018-07-29 16:20:21,078 ReportChecker INFO avg_check start
+2018-07-29 16:20:21,081 ReportChecker INFO avg_check query appended
+2018-07-29 16:20:21,190 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:20:21,719 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:20:21,720 ReportChecker INFO avg_check insert completed
+2018-07-29 16:20:21,720 ReportChecker INFO avg_check update completed
+2018-07-29 16:28:37,618 ReportChecker INFO Database connected.
+2018-07-29 16:28:37,619 ReportChecker INFO avg_check start
+2018-07-29 16:28:37,619 ReportChecker INFO avg_check query appended
+2018-07-29 16:28:37,756 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:28:38,500 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:28:38,502 ReportChecker INFO avg_check insert completed
+2018-07-29 16:28:38,503 ReportChecker INFO avg_check update completed
+2018-07-29 16:31:21,278 ReportChecker INFO Database connected.
+2018-07-29 16:31:21,278 ReportChecker INFO avg_check start
+2018-07-29 16:31:21,279 ReportChecker INFO avg_check query appended
+2018-07-29 16:31:21,345 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:31:22,127 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:31:22,128 ReportChecker INFO avg_check insert completed
+2018-07-29 16:31:22,142 ReportChecker INFO avg_check update completed
+2018-07-29 16:42:26,190 ReportChecker INFO Database connected.
+2018-07-29 16:42:26,190 ReportChecker INFO avg_check start
+2018-07-29 16:42:26,190 ReportChecker INFO avg_check query appended
+2018-07-29 16:42:26,265 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:42:26,823 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:42:26,825 ReportChecker INFO avg_check insert completed
+2018-07-29 16:42:26,825 ReportChecker INFO avg_check update completed
+2018-07-29 16:42:44,357 ReportChecker INFO Database connected.
+2018-07-29 16:42:44,358 ReportChecker INFO avg_check start
+2018-07-29 16:42:44,358 ReportChecker INFO avg_check query appended
+2018-07-29 16:42:44,431 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:42:45,177 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:42:45,177 ReportChecker INFO avg_check insert completed
+2018-07-29 16:42:46,542 ReportChecker INFO avg_check update completed
+2018-07-29 16:50:41,727 ReportChecker INFO Database connected.
+2018-07-29 16:50:41,727 ReportChecker INFO avg_check start
+2018-07-29 16:50:41,729 ReportChecker INFO avg_check query appended
+2018-07-29 16:50:41,825 ReportChecker INFO avg_check query sql_ave selected
+2018-07-29 16:50:42,875 ReportChecker INFO avg_check query insert appended
+2018-07-29 16:50:42,877 ReportChecker INFO avg_check insert completed
+2018-07-29 16:50:43,974 ReportChecker INFO avg_check update completed
+2018-08-01 21:17:16,697 ReportChecker INFO Database connected.
+2018-08-01 21:17:34,627 ReportChecker INFO Database connected.
+2018-08-01 21:18:22,417 ReportChecker INFO Database connected.
+2018-08-01 21:20:24,089 ReportChecker INFO Database connected.
+2018-08-01 21:21:29,924 ReportChecker INFO Database connected.
+2018-08-01 21:23:05,904 ReportChecker INFO Database connected.
+2018-08-01 21:23:23,344 ReportChecker INFO Database connected.
+2018-08-01 21:25:43,121 ReportChecker INFO Database connected.
+2018-08-01 21:26:49,736 ReportChecker INFO Database connected.
+2018-08-01 21:27:42,864 ReportChecker INFO Database connected.
+2018-08-01 21:30:51,677 ReportChecker INFO Database connected.
+2018-08-01 21:31:29,845 ReportChecker INFO Database connected.
+2018-08-01 21:33:01,342 ReportChecker INFO Database connected.
+2018-08-01 21:51:09,364 ReportChecker INFO Database connected.
+2018-08-01 21:53:03,408 ReportChecker INFO Database connected.
+2018-08-04 20:57:47,394 ReportChecker INFO Database connected.
+2018-08-04 20:58:42,151 ReportChecker INFO Database connected.
+2018-08-04 21:01:09,721 ReportChecker INFO Database connected.
+2018-08-04 21:03:00,444 ReportChecker INFO Database connected.
+2018-08-04 21:16:10,892 ReportChecker INFO Database connected.
+2018-08-04 21:17:55,359 ReportChecker INFO Database connected.
+2018-08-04 21:28:13,716 ReportChecker INFO Database connected.
+2018-08-23 08:16:37,826 ReportChecker INFO Database connected.
+2018-08-23 08:16:37,828 ReportChecker INFO avg_check start
+2018-08-23 08:16:37,828 ReportChecker INFO avg_check query appended
+2018-08-23 08:16:39,025 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:17:00,668 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:17:07,010 ReportChecker INFO avg_check insert completed
+2018-08-23 08:17:16,111 ReportChecker INFO avg_check update completed
+2018-08-23 08:17:18,457 ReportChecker INFO Database connected.
+2018-08-23 08:18:02,357 ReportChecker INFO Database connected.
+2018-08-23 08:18:02,357 ReportChecker INFO avg_check start
+2018-08-23 08:18:02,358 ReportChecker INFO avg_check query appended
+2018-08-23 08:18:02,957 ReportChecker ERROR Check sql statement failed: ('22003', '[22003] [Microsoft][ODBC Driver 13 for SQL Server][SQL Server]Arithmetic overflow error converting expression to data type int. (8115) (SQLExecDirectW)')
+2018-08-23 08:18:03,150 ReportChecker INFO Database connected.
+2018-08-23 08:18:04,059 ReportChecker INFO Database connected.
+2018-08-23 08:18:54,266 ReportChecker INFO Database connected.
+2018-08-23 08:18:54,266 ReportChecker INFO avg_check start
+2018-08-23 08:18:54,266 ReportChecker INFO avg_check query appended
+2018-08-23 08:18:55,387 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:19:13,551 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:20:58,549 ReportChecker INFO avg_check insert completed
+2018-08-23 08:20:58,549 ReportChecker INFO avg_check update completed
+2018-08-23 08:21:00,782 ReportChecker INFO Database connected.
+2018-08-23 08:21:51,983 ReportChecker INFO Database connected.
+2018-08-23 08:21:51,986 ReportChecker INFO avg_check start
+2018-08-23 08:21:51,986 ReportChecker INFO avg_check query appended
+2018-08-23 08:21:53,065 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:22:09,802 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:22:43,138 ReportChecker INFO avg_check insert completed
+2018-08-23 08:22:43,138 ReportChecker INFO avg_check update completed
+2018-08-23 08:22:43,546 ReportChecker INFO Database connected.
+2018-08-23 08:23:34,907 ReportChecker INFO Database connected.
+2018-08-23 08:23:34,907 ReportChecker INFO avg_check start
+2018-08-23 08:23:34,907 ReportChecker INFO avg_check query appended
+2018-08-23 08:23:36,119 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:23:53,651 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:24:27,680 ReportChecker INFO avg_check insert completed
+2018-08-23 08:24:27,680 ReportChecker INFO avg_check update completed
+2018-08-23 08:24:28,118 ReportChecker INFO Database connected.
+2018-08-23 08:25:19,259 ReportChecker INFO Database connected.
+2018-08-23 08:25:19,259 ReportChecker INFO avg_check start
+2018-08-23 08:25:19,260 ReportChecker INFO avg_check query appended
+2018-08-23 08:25:20,380 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:25:34,279 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:26:01,815 ReportChecker INFO avg_check insert completed
+2018-08-23 08:26:01,815 ReportChecker INFO avg_check update completed
+2018-08-23 08:26:02,226 ReportChecker INFO Database connected.
+2018-08-23 08:26:53,209 ReportChecker INFO Database connected.
+2018-08-23 08:26:53,209 ReportChecker INFO avg_check start
+2018-08-23 08:26:53,210 ReportChecker INFO avg_check query appended
+2018-08-23 08:26:54,296 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:27:08,194 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:27:36,000 ReportChecker INFO avg_check insert completed
+2018-08-23 08:27:36,000 ReportChecker INFO avg_check update completed
+2018-08-23 08:27:36,410 ReportChecker INFO Database connected.
+2018-08-23 08:28:27,665 ReportChecker INFO Database connected.
+2018-08-23 08:28:27,665 ReportChecker INFO avg_check start
+2018-08-23 08:28:27,665 ReportChecker INFO avg_check query appended
+2018-08-23 08:28:28,700 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:28:42,848 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:29:10,865 ReportChecker INFO avg_check insert completed
+2018-08-23 08:29:10,865 ReportChecker INFO avg_check update completed
+2018-08-23 08:29:11,273 ReportChecker INFO Database connected.
+2018-08-23 08:30:02,296 ReportChecker INFO Database connected.
+2018-08-23 08:30:02,296 ReportChecker INFO avg_check start
+2018-08-23 08:30:02,298 ReportChecker INFO avg_check query appended
+2018-08-23 08:30:03,345 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:30:17,484 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:30:45,500 ReportChecker INFO avg_check insert completed
+2018-08-23 08:30:45,502 ReportChecker INFO avg_check update completed
+2018-08-23 08:30:45,908 ReportChecker INFO Database connected.
+2018-08-23 08:31:37,033 ReportChecker INFO Database connected.
+2018-08-23 08:31:37,033 ReportChecker INFO avg_check start
+2018-08-23 08:31:37,033 ReportChecker INFO avg_check query appended
+2018-08-23 08:31:38,075 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:31:52,329 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:32:20,197 ReportChecker INFO avg_check insert completed
+2018-08-23 08:32:20,200 ReportChecker INFO avg_check update completed
+2018-08-23 08:32:20,605 ReportChecker INFO Database connected.
+2018-08-23 08:33:15,936 ReportChecker INFO Database connected.
+2018-08-23 08:33:15,936 ReportChecker INFO avg_check start
+2018-08-23 08:33:15,937 ReportChecker INFO avg_check query appended
+2018-08-23 08:33:17,138 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:33:32,032 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:34:00,020 ReportChecker INFO avg_check insert completed
+2018-08-23 08:34:00,022 ReportChecker INFO avg_check update completed
+2018-08-23 08:34:00,428 ReportChecker INFO Database connected.
+2018-08-23 08:34:52,293 ReportChecker INFO Database connected.
+2018-08-23 08:34:52,293 ReportChecker INFO avg_check start
+2018-08-23 08:34:52,293 ReportChecker INFO avg_check query appended
+2018-08-23 08:34:53,302 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:35:07,391 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:35:35,378 ReportChecker INFO avg_check insert completed
+2018-08-23 08:35:35,380 ReportChecker INFO avg_check update completed
+2018-08-23 08:35:35,785 ReportChecker INFO Database connected.
+2018-08-23 08:36:27,029 ReportChecker INFO Database connected.
+2018-08-23 08:36:27,029 ReportChecker INFO avg_check start
+2018-08-23 08:36:27,029 ReportChecker INFO avg_check query appended
+2018-08-23 08:36:28,062 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:36:42,165 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:37:10,131 ReportChecker INFO avg_check insert completed
+2018-08-23 08:37:10,131 ReportChecker INFO avg_check update completed
+2018-08-23 08:37:10,539 ReportChecker INFO Database connected.
+2018-08-23 08:38:01,967 ReportChecker INFO Database connected.
+2018-08-23 08:38:01,969 ReportChecker INFO avg_check start
+2018-08-23 08:38:01,969 ReportChecker INFO avg_check query appended
+2018-08-23 08:38:03,075 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:38:17,246 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:38:45,352 ReportChecker INFO avg_check insert completed
+2018-08-23 08:38:45,352 ReportChecker INFO avg_check update completed
+2018-08-23 08:38:45,759 ReportChecker INFO Database connected.
+2018-08-23 08:39:36,161 ReportChecker INFO Database connected.
+2018-08-23 08:39:36,161 ReportChecker INFO avg_check start
+2018-08-23 08:39:36,161 ReportChecker INFO avg_check query appended
+2018-08-23 08:39:37,233 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:39:51,394 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:40:19,332 ReportChecker INFO avg_check insert completed
+2018-08-23 08:40:19,332 ReportChecker INFO avg_check update completed
+2018-08-23 08:40:19,740 ReportChecker INFO Database connected.
+2018-08-23 08:41:09,211 ReportChecker INFO Database connected.
+2018-08-23 08:41:09,211 ReportChecker INFO avg_check start
+2018-08-23 08:41:09,211 ReportChecker INFO avg_check query appended
+2018-08-23 08:41:10,256 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:41:25,467 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:41:55,385 ReportChecker INFO avg_check insert completed
+2018-08-23 08:41:55,385 ReportChecker INFO avg_check update completed
+2018-08-23 08:41:55,834 ReportChecker INFO Database connected.
+2018-08-23 08:42:44,858 ReportChecker INFO Database connected.
+2018-08-23 08:42:44,858 ReportChecker INFO avg_check start
+2018-08-23 08:42:44,858 ReportChecker INFO avg_check query appended
+2018-08-23 08:42:45,928 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:43:00,046 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:43:28,075 ReportChecker INFO avg_check insert completed
+2018-08-23 08:43:28,076 ReportChecker INFO avg_check update completed
+2018-08-23 08:43:28,476 ReportChecker INFO Database connected.
+2018-08-23 08:44:17,766 ReportChecker INFO Database connected.
+2018-08-23 08:44:17,766 ReportChecker INFO avg_check start
+2018-08-23 08:44:17,766 ReportChecker INFO avg_check query appended
+2018-08-23 08:44:18,864 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:44:33,963 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:45:01,936 ReportChecker INFO avg_check insert completed
+2018-08-23 08:45:01,937 ReportChecker INFO avg_check update completed
+2018-08-23 08:45:02,335 ReportChecker INFO Database connected.
+2018-08-23 08:45:51,486 ReportChecker INFO Database connected.
+2018-08-23 08:45:51,486 ReportChecker INFO avg_check start
+2018-08-23 08:45:51,486 ReportChecker INFO avg_check query appended
+2018-08-23 08:45:52,542 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:46:06,525 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:46:34,237 ReportChecker INFO avg_check insert completed
+2018-08-23 08:46:34,239 ReportChecker INFO avg_check update completed
+2018-08-23 08:46:34,635 ReportChecker INFO Database connected.
+2018-08-23 08:47:23,141 ReportChecker INFO Database connected.
+2018-08-23 08:47:23,141 ReportChecker INFO avg_check start
+2018-08-23 08:47:23,141 ReportChecker INFO avg_check query appended
+2018-08-23 08:47:24,177 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:47:38,094 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:48:05,627 ReportChecker INFO avg_check insert completed
+2018-08-23 08:48:05,628 ReportChecker INFO avg_check update completed
+2018-08-23 08:48:06,119 ReportChecker INFO Database connected.
+2018-08-23 08:48:54,617 ReportChecker INFO Database connected.
+2018-08-23 08:48:54,618 ReportChecker INFO avg_check start
+2018-08-23 08:48:54,618 ReportChecker INFO avg_check query appended
+2018-08-23 08:48:55,739 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:49:09,632 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:49:37,391 ReportChecker INFO avg_check insert completed
+2018-08-23 08:49:37,394 ReportChecker INFO avg_check update completed
+2018-08-23 08:49:37,792 ReportChecker INFO Database connected.
+2018-08-23 08:50:26,448 ReportChecker INFO Database connected.
+2018-08-23 08:50:26,448 ReportChecker INFO avg_check start
+2018-08-23 08:50:26,448 ReportChecker INFO avg_check query appended
+2018-08-23 08:50:27,525 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:50:41,473 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:51:09,141 ReportChecker INFO avg_check insert completed
+2018-08-23 08:51:09,141 ReportChecker INFO avg_check update completed
+2018-08-23 08:51:09,618 ReportChecker INFO Database connected.
+2018-08-23 08:51:58,155 ReportChecker INFO Database connected.
+2018-08-23 08:51:58,155 ReportChecker INFO avg_check start
+2018-08-23 08:51:58,157 ReportChecker INFO avg_check query appended
+2018-08-23 08:51:59,207 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:52:13,178 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:52:40,739 ReportChecker INFO avg_check insert completed
+2018-08-23 08:52:40,740 ReportChecker INFO avg_check update completed
+2018-08-23 08:52:41,138 ReportChecker INFO Database connected.
+2018-08-23 08:53:29,816 ReportChecker INFO Database connected.
+2018-08-23 08:53:29,816 ReportChecker INFO avg_check start
+2018-08-23 08:53:29,816 ReportChecker INFO avg_check query appended
+2018-08-23 08:53:30,864 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:53:44,970 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:54:13,275 ReportChecker INFO avg_check insert completed
+2018-08-23 08:54:13,275 ReportChecker INFO avg_check update completed
+2018-08-23 08:54:13,674 ReportChecker INFO Database connected.
+2018-08-23 08:55:03,119 ReportChecker INFO Database connected.
+2018-08-23 08:55:03,119 ReportChecker INFO avg_check start
+2018-08-23 08:55:03,121 ReportChecker INFO avg_check query appended
+2018-08-23 08:55:04,256 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:55:18,237 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:55:45,836 ReportChecker INFO avg_check insert completed
+2018-08-23 08:55:45,836 ReportChecker INFO avg_check update completed
+2018-08-23 08:55:46,236 ReportChecker INFO Database connected.
+2018-08-23 08:56:35,198 ReportChecker INFO Database connected.
+2018-08-23 08:56:35,198 ReportChecker INFO avg_check start
+2018-08-23 08:56:35,200 ReportChecker INFO avg_check query appended
+2018-08-23 08:56:36,196 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:56:50,164 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:57:17,680 ReportChecker INFO avg_check insert completed
+2018-08-23 08:57:17,680 ReportChecker INFO avg_check update completed
+2018-08-23 08:57:18,125 ReportChecker INFO Database connected.
+2018-08-23 08:58:06,642 ReportChecker INFO Database connected.
+2018-08-23 08:58:06,644 ReportChecker INFO avg_check start
+2018-08-23 08:58:06,644 ReportChecker INFO avg_check query appended
+2018-08-23 08:58:07,809 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:58:21,809 ReportChecker INFO avg_check query insert appended
+2018-08-23 08:58:49,325 ReportChecker INFO avg_check insert completed
+2018-08-23 08:58:49,325 ReportChecker INFO avg_check update completed
+2018-08-23 08:58:49,724 ReportChecker INFO Database connected.
+2018-08-23 08:59:38,355 ReportChecker INFO Database connected.
+2018-08-23 08:59:38,357 ReportChecker INFO avg_check start
+2018-08-23 08:59:38,357 ReportChecker INFO avg_check query appended
+2018-08-23 08:59:39,434 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 08:59:53,367 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:00:24,121 ReportChecker INFO avg_check insert completed
+2018-08-23 09:00:24,121 ReportChecker INFO avg_check update completed
+2018-08-23 09:00:24,594 ReportChecker INFO Database connected.
+2018-08-23 09:01:19,223 ReportChecker INFO Database connected.
+2018-08-23 09:01:19,223 ReportChecker INFO avg_check start
+2018-08-23 09:01:19,223 ReportChecker INFO avg_check query appended
+2018-08-23 09:01:20,460 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 09:01:35,290 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:02:04,464 ReportChecker INFO avg_check insert completed
+2018-08-23 09:02:04,466 ReportChecker INFO avg_check update completed
+2018-08-23 09:02:04,868 ReportChecker INFO Database connected.
+2018-08-23 09:02:53,716 ReportChecker INFO Database connected.
+2018-08-23 09:02:53,716 ReportChecker INFO avg_check start
+2018-08-23 09:02:53,716 ReportChecker INFO avg_check query appended
+2018-08-23 09:02:54,709 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 09:03:08,607 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:03:36,486 ReportChecker INFO avg_check insert completed
+2018-08-23 09:03:36,487 ReportChecker INFO avg_check update completed
+2018-08-23 09:03:36,887 ReportChecker INFO Database connected.
+2018-08-23 09:04:28,184 ReportChecker INFO Database connected.
+2018-08-23 09:04:28,184 ReportChecker INFO avg_check start
+2018-08-23 09:04:28,186 ReportChecker INFO avg_check query appended
+2018-08-23 09:04:29,184 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 09:04:44,289 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:05:12,190 ReportChecker INFO avg_check insert completed
+2018-08-23 09:05:12,190 ReportChecker INFO avg_check update completed
+2018-08-23 09:05:12,645 ReportChecker INFO Database connected.
+2018-08-23 09:06:01,214 ReportChecker INFO Database connected.
+2018-08-23 09:06:01,214 ReportChecker INFO avg_check start
+2018-08-23 09:06:01,214 ReportChecker INFO avg_check query appended
+2018-08-23 09:06:02,293 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 09:06:16,055 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:06:43,236 ReportChecker INFO avg_check insert completed
+2018-08-23 09:06:43,236 ReportChecker INFO avg_check update completed
+2018-08-23 09:06:43,641 ReportChecker INFO Database connected.
+2018-08-23 09:07:32,513 ReportChecker INFO Database connected.
+2018-08-23 09:07:32,513 ReportChecker INFO avg_check start
+2018-08-23 09:07:32,513 ReportChecker INFO avg_check query appended
+2018-08-23 09:07:33,548 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 09:07:47,323 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:08:14,900 ReportChecker INFO avg_check insert completed
+2018-08-23 09:08:14,901 ReportChecker INFO avg_check update completed
+2018-08-23 09:08:15,299 ReportChecker INFO Database connected.
+2018-08-23 09:09:04,571 ReportChecker INFO Database connected.
+2018-08-23 09:09:04,571 ReportChecker INFO avg_check start
+2018-08-23 09:09:04,572 ReportChecker INFO avg_check query appended
+2018-08-23 09:09:05,664 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 09:09:21,707 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:09:53,884 ReportChecker INFO avg_check insert completed
+2018-08-23 09:09:53,885 ReportChecker INFO avg_check update completed
+2018-08-23 09:09:54,325 ReportChecker INFO Database connected.
+2018-08-23 09:10:44,683 ReportChecker INFO Database connected.
+2018-08-23 09:10:44,683 ReportChecker INFO avg_check start
+2018-08-23 09:10:44,684 ReportChecker INFO avg_check query appended
+2018-08-23 09:10:45,970 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 09:11:02,026 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:11:33,871 ReportChecker INFO avg_check insert completed
+2018-08-23 09:11:33,871 ReportChecker INFO avg_check update completed
+2018-08-23 09:11:34,312 ReportChecker INFO Database connected.
+2018-08-23 09:12:24,782 ReportChecker INFO Database connected.
+2018-08-23 09:12:24,782 ReportChecker INFO avg_check start
+2018-08-23 09:12:24,782 ReportChecker INFO avg_check query appended
+2018-08-23 09:12:26,058 ReportChecker INFO avg_check query sql_ave selected
+2018-08-23 09:12:42,279 ReportChecker INFO avg_check query insert appended
+2018-08-23 09:13:13,960 ReportChecker INFO avg_check insert completed
+2018-08-23 09:13:13,960 ReportChecker INFO avg_check update completed
+2018-08-23 09:13:14,400 ReportChecker INFO Database connected.
+2018-08-23 09:14:04,869 ReportChecker INFO Database connected.
+2018-08-23 09:14:04,869 ReportChecker INFO avg_check start
+2018-08-23 09:14:04,869 ReportChecker INFO avg_check query appended
+2018-08-23 09:14:06,059 ReportChecker ERROR Check sql statement failed: ('22003', '[22003] [Microsoft][ODBC Driver 13 for SQL Server][SQL Server]Arithmetic overflow error converting expression to data type int. (8115) (SQLExecDirectW)')
+2018-08-23 09:14:06,279 ReportChecker INFO Database connected.
+2018-08-23 09:14:07,153 ReportChecker INFO Database connected.

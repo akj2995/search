@@ -1,0 +1,12 @@
+long
+TestMockingMagicMethods
+six
+inspect
+_magics
+unittest
+division
+MagicMock
+Mock
+textwrap
+sys
+unicode

@@ -1,0 +1,15 @@
+testscenarios
+test_version
+test_packaging
+os
+util
+test_hooks
+test_files
+test_util
+test_commands
+test_setup
+test_wsgi
+test_core
+base
+test_integration
+load_tests

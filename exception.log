@@ -1,0 +1,112 @@
+2017-05-13 03:01:03,216 Traceback (most recent call last):
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1617, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1600, in raise_routing_exception
+    raise request.routing_exception
+NotFound: 404: Not Found
+
+2017-05-13 03:01:03,240 Traceback (most recent call last):
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\ldap\src\server\env\lib\site-packages\flask_restful\__init__.py", line 271, in error_router
+    return original_handler(e)
+  File "D:\ldap\src\server\env\lib\site-packages\flask_cors\extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1746, in make_response
+    rv = self.response_class.force_type(rv, request.environ)
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\wrappers.py", line 847, in force_type
+    response = BaseResponse(*_run_wsgi_app(response, environ))
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\wrappers.py", line 57, in _run_wsgi_app
+    return _run_wsgi_app(*args)
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\test.py", line 871, in run_wsgi_app
+    app_rv = app(environ, start_response)
+TypeError: 'int' object is not callable
+
+2017-05-13 03:02:54,552 Traceback (most recent call last):
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1617, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1600, in raise_routing_exception
+    raise request.routing_exception
+NotFound: 404: Not Found
+
+2017-05-13 03:02:54,556 Traceback (most recent call last):
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\ldap\src\server\env\lib\site-packages\flask_restful\__init__.py", line 271, in error_router
+    return original_handler(e)
+  File "D:\ldap\src\server\env\lib\site-packages\flask_cors\extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1746, in make_response
+    rv = self.response_class.force_type(rv, request.environ)
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\wrappers.py", line 847, in force_type
+    response = BaseResponse(*_run_wsgi_app(response, environ))
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\wrappers.py", line 57, in _run_wsgi_app
+    return _run_wsgi_app(*args)
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\test.py", line 871, in run_wsgi_app
+    app_rv = app(environ, start_response)
+TypeError: 'int' object is not callable
+
+2017-05-13 03:09:41,914 Traceback (most recent call last):
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1617, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1600, in raise_routing_exception
+    raise request.routing_exception
+NotFound: 404: Not Found
+
+2017-05-13 03:09:41,921 Traceback (most recent call last):
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\ldap\src\server\env\lib\site-packages\flask_restful\__init__.py", line 271, in error_router
+    return original_handler(e)
+  File "D:\ldap\src\server\env\lib\site-packages\flask_cors\extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1746, in make_response
+    rv = self.response_class.force_type(rv, request.environ)
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\wrappers.py", line 847, in force_type
+    response = BaseResponse(*_run_wsgi_app(response, environ))
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\wrappers.py", line 57, in _run_wsgi_app
+    return _run_wsgi_app(*args)
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\test.py", line 871, in run_wsgi_app
+    app_rv = app(environ, start_response)
+TypeError: 'int' object is not callable
+
+2017-05-13 03:12:12,331 Traceback (most recent call last):
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1617, in dispatch_request
+    self.raise_routing_exception(req)
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1600, in raise_routing_exception
+    raise request.routing_exception
+NotFound: 404: Not Found
+
+2017-05-13 03:12:12,335 Traceback (most recent call last):
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\ldap\src\server\env\lib\site-packages\flask_restful\__init__.py", line 271, in error_router
+    return original_handler(e)
+  File "D:\ldap\src\server\env\lib\site-packages\flask_cors\extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "D:\ldap\src\server\env\lib\site-packages\flask\app.py", line 1746, in make_response
+    rv = self.response_class.force_type(rv, request.environ)
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\wrappers.py", line 847, in force_type
+    response = BaseResponse(*_run_wsgi_app(response, environ))
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\wrappers.py", line 57, in _run_wsgi_app
+    return _run_wsgi_app(*args)
+  File "D:\ldap\src\server\env\lib\site-packages\werkzeug\test.py", line 871, in run_wsgi_app
+    app_rv = app(environ, start_response)
+TypeError: 'int' object is not callable
+

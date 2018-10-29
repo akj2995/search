@@ -1,0 +1,11 @@
+PY2
+_convert_content_to_stream
+isstream
+BookWriter
+BookReader
+RWInterface
+MESSAGE_WRONG_IO_INSTANCE
+MESSAGE_ERROR_03
+StringIO
+OrderedDict
+RWManager

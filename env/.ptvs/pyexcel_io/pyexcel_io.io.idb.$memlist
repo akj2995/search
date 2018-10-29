@@ -1,0 +1,14 @@
+PY2
+MESSAGE_ERROR_02
+FILE_FORMAT_CSV
+isstream
+BytesIO
+get_data
+get_writer_new
+save_data
+store_data
+is_generator
+DEFAULT_SHEET_NAME
+StringIO
+RWManager
+load_data_new

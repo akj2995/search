@@ -1,0 +1,8 @@
+KEYWORD_TSV_DIALECT
+CSVZipBookWriter
+CSVZipBookReader
+TSVZipBookWriter
+_registry
+TSVZipBookReader
+FILE_FORMAT_TSVZ
+exports
