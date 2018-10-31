@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from arnserver import app
 from flask_restful import reqparse, Resource, Api
-from .models import *
+from .dbmodels import *
 import platform
 from flask import Flask, request
 from flask import Response
@@ -47,6 +47,7 @@ import math
 import glob
 import yake
 import csv
+from .pred_per_epoch import *
 
 PRINT_LOG = True
 
@@ -329,149 +330,220 @@ class LoadSrcFile(Resource):
         self.token_manager = TokenManager.instance()
         print("self.parser.parse_args() : ",self.parser.parse_args())
         self.group_path = self.parser.parse_args()["group_path"]
+        self.t = Okt()
+        self.ha = Hannanum()
         super(LoadSrcFile, self).__init__()
 
+    def getKeywords(self,docs_ko):
+        datas = ''
+        cur = 0
+        for k in docs_ko:
+            # if cur > 100 :
+            #     break
+            cur += 1
+            datas = datas + k.replace("'","")
+            datas = datas + ','
+        query = "SELECT idx,keydata,GET_KEYWORD_TOP('{0}',{1}) AS keyword FROM tb_temp LIMIT 1".format(datas, cur)
+        # print(query)
+        results = TB_TEMP.query.from_statement(query).first()
+        result_str = results.keyword.replace('"','')
+        db.session.commit()
+        return result_str
+
+    def getSimList(self,keywords,docs_ko,topics_ko):
+        pos = lambda d: ['/'.join(p) for p in self.t.pos(d)]
+        def tokenize(doc):
+            return ['/'.join(t) for t in self.t.pos(doc, norm=True, stem=True)]
+        doc_dict = []
+        for doc in docs_ko:
+            if doc.find('(') != -1 or doc.find(')') != -1 or doc.find('"') != -1 or doc.find('\"') != -1:
+                continue
+            doc_dict.append(doc)
+        docs_ko = [''.join(d) for d in doc_dict]
+        common_texts = []
+        for doc in docs_ko:
+            try:
+                tokens = tokenize(doc)
+                for token in tokens:
+                    common_texts.append(token)
+            except:
+                pass
+        commons = []
+        datalist = []
+        for c in common_texts:
+            try:
+                array2 = c.split('/')
+                if len(array2) > 1 and array2[1] == 'Noun':
+                    commons.append([c])
+                    datalist.append(array2[0])
+                    # print("==>add ", c)
+            except:
+                pass
+
+        topic_dict = []
+        for topic in topics_ko:
+            if topic.find('(') != -1 or topic.find(')') != -1 or topic.find('"') != -1:
+                continue
+                topic_dict.append(topic)
+        topics_ko = [''.join(d) for d in topic_dict]
+        print("topics_ko",topics_ko)
+        topic_common_texts = []
+        for doc in topics_ko:
+            try:
+                tokens = tokenize(doc)
+                for token in tokens:
+                    topic_common_texts.append(token)
+            except:
+                pass
+        topic_datalist = []
+        for c in topic_common_texts:
+            try:
+                array2 = c.split('/')
+                if len(array2) > 1 and array2[1] == 'Noun':
+                    topic_datalist.append(array2[0])
+            except:
+                pass
+
+        model = Word2Vec(commons)  # train word-vectors
+        model.init_sims(replace=True)
+        result_list = []
+        for key in keywords:
+            cur = 0
+            key_list = []
+            for doc in datalist:
+                m_doc = key + ' ' + doc
+                # print("m_doc : ", m_doc)
+                try:
+                    # tok = tokenize(m_doc)
+                    sim = model.wv.similarity(*tokenize(m_doc))
+                    key_list.append(sim)
+                    # print("===> ", m_doc, ", sim : ", sim)
+                except:
+                    pass
+                cur += 1
+            topic_list = []
+            for topic in topic_datalist:
+                m_doc = key + ' ' + topic
+                # print("m_doc : ", m_doc)
+                try:
+                    # tok = tokenize(m_doc)
+                    sim = model.wv.similarity(*tokenize(m_doc))
+                    topic_list.append(sim)
+                    # print("===> ", m_doc, ", sim : ", sim)
+                except:
+                    pass
+            query_idf = self.idf(datalist,key)
+            if len(key_list) > 0:
+                obj = {
+                    "key":key,
+                    "query_idf":query_idf,
+                    "sim_cos":key_list,
+                    "topic_cos": topic_list
+                }
+                result_list.append(obj)
+        return result_list
+
+    def insert_file_info(self,f_idx_string,f_file_path,f_doc,f_topic,f_doc_words,f_topic_words):
+        db.session.query(TB_FILES).filter_by(f_idx_string=f_idx_string).delete()
+        db.session.commit()
+        new_file_info = TB_FILES()
+        new_file_info.f_idx_string = f_idx_string
+        new_file_info.f_file_path = f_file_path
+        new_file_info.f_type= 0
+        new_file_info.f_doc = str(f_doc).replace('"', '')
+        new_file_info.f_topic = str(f_topic).replace('"','')
+        new_file_info.f_doc_words = str(f_doc_words)
+        new_file_info.f_topic_words = str(f_topic_words)
+        new_file_info.created_date = datetime.utcnow()
+        db.session.add(new_file_info)
+        db.session.commit()
+        print("new_file_info.idx : ",new_file_info.idx)
+        return new_file_info.idx
+
+    def insert_keyword(self,f_idx_string,fk_f_idx,k_word,k_idf):
+        db.session.query(TB_KEYWORD).filter_by(f_idx_string=f_idx_string).filter_by(k_word=k_word).delete()
+        db.session.commit()
+        new_keyword = TB_KEYWORD()
+        new_keyword.f_idx_string = f_idx_string
+        new_keyword.fk_f_idx = fk_f_idx
+        new_keyword.k_word = k_word
+        new_keyword.k_idf = k_idf
+        new_keyword.created_date = datetime.utcnow()
+        db.session.add(new_keyword)
+        db.session.commit()
+        print("new_keyword.idx : ",new_keyword.idx)
+        return new_keyword.idx
+
+    def insert_sim_cos(self,f_idx_string,k_word,fk_k_idx,fk_f_idx,s_sim_cos_doc,s_sim_cos_topic):
+        db.session.query(TB_SIM_COS).filter_by(f_idx_string=f_idx_string).filter_by(k_word=k_word).delete()
+        db.session.commit()
+        new_sim_cos = TB_SIM_COS()
+        new_sim_cos.f_idx_string = f_idx_string
+        new_sim_cos.fk_f_idx = fk_f_idx
+        new_sim_cos.k_word = k_word
+        new_sim_cos.s_sim_cos_doc = str(s_sim_cos_doc)
+        new_sim_cos.s_sim_cos_topic = str(s_sim_cos_topic)
+        new_sim_cos.created_date = datetime.utcnow()
+        db.session.add(new_sim_cos)
+        db.session.commit()
+        print("new_sim_cos.idx : ",new_sim_cos.idx)
+        return new_sim_cos.idx
+
+
+    def idf(self,index, term):
+        list_count = len(index)
+        find = 0
+        for d in index:
+            if d == term:
+                find += 1
+        if find == 0:
+            return 0
+        return math.log(float(list_count) / find)
 
     def post(self):
         # try:
         print("LoadSrcFile start")
 
-        def tokenize(doc):
-            return ['/'.join(t) for t in t.pos(doc, norm=True, stem=True)]
 
         def getKobilFilePath(path) :
             return path.split('../data/')[1]
-
-        t = Okt()
-        ha = Hannanum()
         input_doc_dir = '../../data/data/' + str(self.group_path) + '/doc/*.txt'
-        print("input_doc_dir : ", input_doc_dir)
-        input_query_dir = './input/query'
-        files = glob.glob(input_doc_dir)
-        print("file len : ", len(files))
-        kkma = Kkma()
-        # komoran = Komoran()
+        doc_files = glob.glob(input_doc_dir)
+
+        print("doc_file len : ", len(doc_files))
         cur = 0
-        for f in files:
-            if cur > 0:
-                break
+        for f in doc_files:
+            # if cur > 0:
+            #     break
+
             cur += 1
-            filepath = getKobilFilePath(f)
-            print("file : ", filepath)
+            doc_filepath = getKobilFilePath(f)
+            topic_filepath = doc_filepath.replace('doc','topic')
+            # print("doc_file : ", doc_filepath)
+            # print("topic_file : ", topic_filepath)
+            filename = os.path.basename(doc_filepath).split('.')[0]
+            print("============================== start cur : ", cur, "  filename : ",filename)
+            # print("filename : ", filename)
+            doc_ngrams = kobill.open(doc_filepath).read()
+            docs_ko = self.ha.nouns(doc_ngrams)
+            keywords = self.getKeywords(docs_ko)
+            print("keywords : ", keywords)
+            topic_ngrams = kobill.open(topic_filepath).read()
+            topics_ko = self.ha.nouns(topic_ngrams)
+            # print("topics_ko : ", topics_ko)
+            sim_list = self.getSimList(keywords.split(','),docs_ko,topics_ko)
+            # print("sim_list : ",sim_list)
+            fk_f_idx = self.insert_file_info(filename,doc_filepath,doc_ngrams,topic_ngrams,docs_ko,topics_ko)
+            for sim in sim_list :
+                print("key : ",sim['key'])
+                print("query_idf : ", sim['query_idf'])
+                f_k_idx = self.insert_keyword(filename,fk_f_idx,sim['key'],sim['query_idf'])
+                print("f_k_idx : ", f_k_idx)
+                f_s_idx = self.insert_sim_cos(filename,sim['key'],fk_f_idx,f_k_idx,sim['sim_cos'],sim['topic_cos'])
+                print("f_s_idx : ", f_s_idx)
 
-            ngrams = kobill.open(filepath).read()
-            pos = lambda d: ['/'.join(p) for p in t.pos(d)]
-            docs_ko = ha.nouns(ngrams)
-            print("ngrams : ",docs_ko)
-            datas = ''
-            for k in docs_ko :
-                datas = datas + k
-                datas = datas + ','
-            query = "SELECT *,GET_KEYWORD_TOP('{0}',{1}) AS keyword FROM tb_temp LIMIT 1".format(datas,len(docs_ko))
-            print(query)
-            results = TB_TEMP.query.from_statement(query).first()
-            db.session.commit()
-            print("r : ",results.keyword)
-
-            # print("result : ",results[0]['keyword'])
-            # custom_kwextractor = yake.KeywordExtractor(lan="en", n=1, dedupLim=0.8, windowsSize=1, top=5)
-            # # ngrams = load_ngram(filepath)
-            # ngrams = kobill.open(filepath).read()
-            #
-            # keywords = custom_kwextractor.extract_keywords(ngrams)
-            # print("keywords : ", keywords)
-            # for key in keywords:
-            #     print("key : ",key[1])
-            # # print("ngrams : ", ngrams)
-
-            # pos = lambda d: ['/'.join(p) for p in t.pos(d)]
-            #
-            #
-            # # docs_ko = kkma.nouns(ngrams)
-            #
-            # docs_ko = komoran.nouns(ngrams)
-            # # docs_ko = mecab.nouns(ngrams)
-            # # docs_ko = ha.nouns(ngrams)
-            # # docs_ko = ha.pos(ngrams,ntags=9)
-            doc_dict = []
-            for doc in docs_ko:
-                if doc.find('(') != -1 or doc.find(')') != -1:
-                    continue
-                doc_dict.append(doc)
-            docs_ko = [''.join(d) for d in doc_dict]
-            print("docs_ko : ", docs_ko)
-            #  # common_texts = [tokenize(doc) for doc  in docs_ko]
-            common_texts = []
-            for doc in docs_ko:
-                # print("doc : ", doc)
-                try:
-                    tokens = tokenize(doc)
-                    for token in tokens:
-                        # print("token : ", token)
-                        common_texts.append(token)
-                except:
-                    pass
-            print("common_texts : ", common_texts)
-
-            commons = []
-            datalist = []
-            cur = 0
-            for c in common_texts:
-                try:
-                    array2 = c.split('/')
-                    if len(array2) > 1 and array2[1] == 'Noun':
-                        commons.append([c])
-                        datalist.append(array2[0])
-                        # print("==>add ", c)
-                except:
-                    pass
-
-            model = Word2Vec(commons)  # train word-vectors
-            model.init_sims(replace=True)
-            keywords = results.keyword.split(',')
-            for key in keywords:
-                cur = 0
-                result_list = []
-                for doc in datalist:
-                    m_doc = key + ' ' + doc
-                    # print("m_doc : ", m_doc)
-                    try:
-                        tok = tokenize(m_doc)
-                        # print("tok : ", tok)
-                        # print("===> ",m_doc,", sim : ",model.wv.similarity(*tokenize(u'이스라엘 아랍')))
-                        # print("mdoc : ",*tokenize(m_doc))
-                        sim = model.wv.similarity(*tokenize(m_doc))
-                        result_list.append(sim)
-                        # print("===> ", m_doc, ", sim : ", sim)
-                    except:
-                        pass
-                    cur += 1
-                if len(result_list) > 0 :
-                    print("sim list :", result_list)
 
         objects = []
-        Log("[LoadSrcFile START...]")
-        # query = "SELECT id FROM %(table_name)s WHERE user_id='%(ID)s' AND user_password=password('%(PW)s')" % {
-        #     "table_name": TB_LOGIN_USER.__tablename__,
-        #     "ID": self.user_id,
-        #     "PW": self.user_password
-        # }
-        # print ("sql : " + query)
-        # login_user = TB_LOGIN_USER.query.from_statement(query).first()
-        # print("login start 111")
-        # if login_user is not None:
-        #     update_token = self.token_manager.generate_token(login_user.user_id)
-        #     print("login start 222")
-        #     token_input = {}
-        #     token_input["token"] = update_token
-        #     db.session.query(TB_LOGIN_USER).filter_by(user_id=self.user_id).update(token_input)
-        #     db.session.commit()
-        #     print("login start 333")
-        #     objects.append({
-        #         'login': True,
-        #         'userOTP': False,
-        #         'token': update_token
-        #     })
         Log("[LoadSrcFile SUCCESS]")
         return result(200, "LoadSrcFile successful.", objects, None, "by sisung ")
         # except:
@@ -479,9 +551,61 @@ class LoadSrcFile(Resource):
         #     return result(400, "Login exception ", None, None, "by sisung ")
         # return result(400, "Login failed.", objects, None, "by sisung")
 
+@app.route('/')
+class SearchQuery(Resource):
+    """
+    [ SearchQuery ]
+    For SearchQuery
+    @ GET : Returns Result
+    by sisung
+    """
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument("querystring", type=str, location="json")
+
+        self.token_manager = TokenManager.instance()
+
+        self.querystring = self.parser.parse_args()["querystring"]
+        super(SearchQuery, self).__init__()
+
+    def post(self):
+        # try:
+        objects = []
+        Log("[SearchQuery START...]")
+        print("querystring :",self.querystring)
+        sim_cos_list = TB_SIM_COS.query.all()
+        print("sim_cos_list len :", len(sim_cos_list))
+
+        # objParam= {
+        #     'expname': 'pacrrpub',
+        #     'train_years': 'wt09_10',
+        #     'test_year': 'wt15',
+        #     'numneg': 6,
+        #     'batch': 32,
+        #     'winlen': 1,
+        #     'kmaxpool': 3,
+        #     'binmat': False,
+        #     'context': False,
+        #     'combine': 16,
+        #     'iterations': 10,
+        #     'shuffle': False,
+        #     'parentdir': '/home/ubuntu/copacrr',
+        #     'modelfn':'pacrr'
+        # }
+        # print("param obj :",objParam)
+        # pred(_log=None,_config=objParam)
+        Log("[SearchQuery SUCCESS]")
+        return result(200, "SearchQuery successful.", objects, None, "by sisung ")
+        # except:
+        #     Log("[SearchQuery exception]")
+        #     return result(400, "SearchQuery exception ", None, None, "by sisung ")
+        return result(400, "SearchQuery failed.", objects, None, "by sisung")
+
 api = Api(app)
 
 # Basic URI
 # 로그인
 api.add_resource(Login, '/Login')
 api.add_resource(LoadSrcFile, '/LoadSrcFile')
+api.add_resource(SearchQuery, '/SearchQuery')
