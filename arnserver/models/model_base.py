@@ -6,8 +6,14 @@ Flatten, Input, merge, Lambda, Reshape
 from keras import backend
 import tensorflow as tf
 backend.clear_session()
+# import sys
+# import os
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+# from utils.config import file2name, name2file
 
-from utils.config import file2name, name2file
+file2name = {'pacrr':'PACRR', 'matchpyramid':'MatchPyramid', 'duetl':'DUETL',
+             'drmm':'DRMM', 'knrm':'KNRM', 'elm_pacrr': 'ELMPACRR'}
+name2file = {v: k for k, v in file2name.items()}
 
 _boolstr = lambda x: x.lower() == 'true'
 _nonestr = lambda x: None if x == 'None' else x
@@ -40,15 +46,19 @@ class MODEL_BASE:
         if not skip_check:
             if params != self.string_to_params(s, True):
                 d = self.string_to_params(s, True)
+                print("d : ",d)
                 for k, v in d.items():
+                    print("=> 1k :",k,",value :",v)
                     if k not in params or params.get(k) != v:
                         print("%s k=%s vs. k=%s" % (k, params.get(k), d[k]))
                         print(type(params.get(k)), type(d[k]))
                 for k, v in params.items():
+                    print("=> 2k :", k, ",value :", v)
                     if k not in d or d.get(k) != v:
                         print("%s k=%s vs. k=%s" % (k, params[k], d.get(k)))
                         print(type(params[k]), type(d.get(k)))
-                raise RuntimeError("self.string_to_params(s, True)")
+                # raise RuntimeError("self.string_to_params(s, True)")
+        print("s : ",s)
         return s
 
 
@@ -60,6 +70,7 @@ class MODEL_BASE:
         out = {'modelfn': name2file[modelname]}
         for pstr in params:
             k, v = pstr.split("-")
+            print("check : ",k,v)
             if (k == "ut" or k == "ud") and _boolstr(v):
                 continue
             assert k in self.params, "invalid key '%s' encountered in string: %s" % (k, s)
@@ -165,9 +176,17 @@ class MODEL_BASE:
         return re_input, cov_sim_layers, pool_sdim_layer, pool_sdim_layer_context, pool_filter_layer, ex_filter_layer, re_ql_ds
 
     def dump_weights(self, weight_file):
+        print("==================> save weight_file :",weight_file)
         self.model.save_weights(weight_file)
         
     def build_from_dump(self, weight_file):
         self.build_predict()
         self.model.load_weights(weight_file)
+
+        try :
+            self.model.load_weights(weight_file)
+            print("==================> build_from_dump weight_file SUCCESS")
+        except :
+            print("==================> build_from_dump weight_file except")
+            pass
         return self.model

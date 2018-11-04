@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from keras.models import Sequential, Model
 from keras.layers import Permute, Activation, Dense, Dropout, Embedding, \
 Flatten, Input, merge, Lambda, Reshape, Convolution2D, MaxPooling2D
@@ -6,7 +7,7 @@ from keras.layers.recurrent import LSTM
 from keras import backend
 from .model_base import MODEL_BASE
 import tensorflow as tf
-from .utils.ngram_nfilter import get_ngram_nfilter
+from arnserver.utils.ngram_nfilter import get_ngram_nfilter
 
 class PACRR(MODEL_BASE):
     
@@ -20,7 +21,7 @@ class PACRR(MODEL_BASE):
         self.NGRAMS = sorted(self.NGRAM_NFILTER.keys())
         if self.p['qproximity'] > 0:
             self.NGRAMS.append(self.p['qproximity'])
-                
+
     def _cascade_poses(self):
         '''
         initialize the cascade positions, over which

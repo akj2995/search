@@ -4,6 +4,7 @@ from .utils.common_utils import read_qrel, SoftFailure
 from .utils.ngram_nfilter import get_ngram_nfilter
 from .utils.select_doc_pos import *
 import numpy as np, matplotlib as mpl
+import glob
 mpl.use('Agg')
 mpl.rcParams.update({'font.size': 10})
 import matplotlib.pyplot as plt
@@ -14,7 +15,7 @@ import tempfile, subprocess
 import keras.backend as K
 K.get_session()
 
-from .utils.utils import load_test_data, DumpWeight, dump_modelplot, pred_label
+from .utils.utils import load_test_data, DumpWeight, dump_modelplot, pred_label,load_test_data_new
 from .utils.config import treceval, perlf, rawdoc_mat_dir, file2name, default_params, qrelfdir
 
 import sacred
@@ -53,34 +54,48 @@ def plot_curve(epoch_err_ndcg_loss, outdir, plot_id, p):
     plt.close()
 
 
-def eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, k, qrelf):	
-    sfile = os.path.join(tmp_dir,'tmperr.f')
-    with tempfile.NamedTemporaryFile(mode='w', delete=True, dir=tmp_dir) as tmpf,\
-            open(sfile,'a+') as errf:
-        for qid in sorted(qid_cwid_pred):
-            print("eval_run qid : ",qid)
-            rank = 1
-            for cwid in sorted(qid_cwid_pred[qid], key=lambda d:-qid_cwid_pred[qid][d]):
-                line = '%d Q0 %s %d %.10e %s\n'%(qid, cwid, rank, qid_cwid_pred[qid][cwid], expid)
+def eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, k, qrelf,rank_idx_dict,rank_value_dict):
+
+    for qid in sorted(qid_cwid_pred):
+        print("eval_run qid : ",qid)
+        rank = 1
+        for cwid in sorted(qid_cwid_pred[qid], key=lambda d:-qid_cwid_pred[qid][d]):
+            line = '%d Q0 %s %d %.10e %s\n'%(qid, cwid, rank, qid_cwid_pred[qid][cwid], expid)
+            if rank  <= 10 :
+                rank_idx_dict[rank] = cwid
+                rank_value_dict[rank] = qid_cwid_pred[qid][cwid]
                 print("line : ",line)
-                errf.write(line)
-                rank += 1 
-        tmpf.flush()
-        run2eval = tmpf.name
-        try:
-            val_res = subprocess.check_output([perlf, '-k','%d'%k, qrelf, run2eval], stderr=errf).decode('utf-8')
-            map_res = subprocess.check_output([treceval, '-m','map', qrelf, run2eval], stderr=errf).decode('utf-8')
-        except subprocess.CalledProcessError as e:
-            print("subprocess except : ",e)
-            _log.error(e)
-            exit(1)
-    amean_line = val_res.splitlines()[-1]
-    mapval = map_res.split()[-1]
-    if 'amean' not in amean_line:
-        _log.error('Error in validation: %s'%amean_line)
-    cols = amean_line.split(',')
-    ndcg20, err20, mapv = float(cols[-2]), float(cols[-1]), float(mapval)
-    return ndcg20, err20, mapv
+            # errf.write(line)
+            rank += 1
+    return rank_idx_dict,rank_value_dict
+    # sfile = os.path.join(tmp_dir,'tmperr.f')
+    # with tempfile.NamedTemporaryFile(mode='w', delete=True, dir=tmp_dir) as tmpf,\
+    #         open(sfile,'a+') as errf:
+    #     for qid in sorted(qid_cwid_pred):
+    #         print("eval_run qid : ",qid)
+    #         rank = 1
+    #         for cwid in sorted(qid_cwid_pred[qid], key=lambda d:-qid_cwid_pred[qid][d]):
+    #             line = '%d Q0 %s %d %.10e %s\n'%(qid, cwid, rank, qid_cwid_pred[qid][cwid], expid)
+    #             if rank  <= 10 :
+    #                 print("line : ",line)
+    #             # errf.write(line)
+    #             rank += 1
+    #     tmpf.flush()
+    #     run2eval = tmpf.name
+    #     try:
+    #         val_res = subprocess.check_output([perlf, '-k','%d'%k, qrelf, run2eval], stderr=errf).decode('utf-8')
+    #         map_res = subprocess.check_output([treceval, '-m','map', qrelf, run2eval], stderr=errf).decode('utf-8')
+    #     except subprocess.CalledProcessError as e:
+    #         print("subprocess except : ",e)
+    #         # _log.error(e)
+    #         exit(1)
+    # amean_line = val_res.splitlines()[-1]
+    # mapval = map_res.split()[-1]
+    # # if 'amean' not in amean_line:
+    # #     _log.error('Error in validation: %s'%amean_line)
+    # cols = amean_line.split(',')
+    # ndcg20, err20, mapv = float(cols[-2]), float(cols[-1]), float(mapval)
+    # return ndcg20, err20, mapv
 
 
 def print_run(qid_cwid_pred, outdir, outfname, run_id):
@@ -93,22 +108,36 @@ def print_run(qid_cwid_pred, outdir, outfname, run_id):
 
 
 @ex.automain
-def pred(_log, _config):
+def pred(_log, _config,_srcList,_query_idf):
+
     p = _config
-    print("pred params : ",p)
+    query_idf = _query_idf
+    srcList = _srcList
+    # print("pred params : ",p)
     modelname = file2name[p['modelfn']]
-    mod_model = importlib.import_module('.models.%s' % p['modelfn'])
+    mod_model = importlib.import_module('.models.%s' % p['modelfn'],package='arnserver')
     model_cls = getattr(mod_model, modelname)
     model_params = {k: v for k, v in p.items() if k in model_cls.params or k == 'modelfn'}
     model = model_cls(model_params, rnd_seed=p['seed'])
+
     expid = model.params_to_string(model_params)
 
     outdir_plot='%s/train_%s/%s/predict_per_epoch/test_%s' % (p['parentdir'], p['train_years'],
                                                               p['expname'], p['test_year'])
     outdir_run='%s/%s'%(outdir_plot, expid)
     tmp_dir=os.path.join(outdir_run,'tmp')
-    weight_dir='%s/train_%s/%s/model_weight/%s' % (p['parentdir'], p['train_years'],p['expname'], expid)
+    if p['type'] == '1' :
+        weight_dir = '%s/train_%s/%s/model_weight/test1' % (p['parentdir'], p['train_years'], p['expname'])
+    else:
+        weight_dir = '%s/train_%s/%s/model_weight/test2' % (p['parentdir'], p['train_years'], p['expname'])
+    #weight_dir='%s/train_%s/%s/model_weight/%s' % (p['parentdir'], p['train_years'],p['expname'], expid)
     detail_outdir='%s/train_%s/%s/model_detail/' % (p['parentdir'], p['train_years'], p['expname'])
+
+    # del_dir = '%s/train_%s/%s/predict_per_epoch/*.*' % (p['parentdir'], p['train_years'],p['expname'])
+    # filelist = glob.glob(del_dir)
+    # for file in filelist:
+    #     os.remove(file)
+    #
 
     if not os.path.isdir(weight_dir):
         _log.error('No such dir {0}'.format(weight_dir))
@@ -123,58 +152,73 @@ def pred(_log, _config):
             os.makedirs(tmp_dir)
     except OSError as e:
         pass
-    _log.info('Processing {0}'.format(outdir_run))
+    # _log.info('Processing {0}'.format(outdir_run))
     ###################
     label2tlabel={4:2,3:2,2:2,1:1,0:0,-2:0}
     topk4eval=20
     NGRAM_NFILTER, N_GRAMS = get_ngram_nfilter(p['winlen'], p['qproximity'], p['maxqlen'], p['xfilters'])
 
-    _log.info('process {0} and output to {1}'.format(weight_dir, outdir_run))
-    _log.info('{0} {1} {2} {3} {4}'.format(p['distill'], 'NGRAM_NFILTER', NGRAM_NFILTER, 'N_GRAMS', N_GRAMS))
+    # _log.info('process {0} and output to {1}'.format(weight_dir, outdir_run))
+    # _log.info('{0} {1} {2} {3} {4}'.format(p['distill'], 'NGRAM_NFILTER', NGRAM_NFILTER, 'N_GRAMS', N_GRAMS))
 
     # prepare train data
     qids = get_train_qids(p['test_year'])
-    print("==> qids : ",qids)
+    # print("==> qids : ",qids)
     #qids = [1,2,3,4,5]
     qrelf = get_qrelf(qrelfdir, p['test_year'])
-    print("==> qrelf : ",qrelf)
-    qid_cwid_label = read_qrel(qrelf, qids, include_spam=False)
-    print("==> qid_cwid_label :",qid_cwid_label)
+    # print("==> qrelf : ",qrelf)
+    # qid_cwid_label = read_qrel(qrelf, qids, include_spam=False)
+    qid_cwid_label = dict()
+    src_cwid = []
+    src_sim_doc_array = dict()
+    src_sim_topic_array = dict()
+    import ast
+
+    for src in srcList :
+        src_cwid.append(src.f_idx_string)
+        src_sim_doc_array[src.f_idx_string] = ast.literal_eval(src.s_sim_cos_doc)
+        src_sim_topic_array[src.f_idx_string] = ast.literal_eval(src.s_sim_cos_doc)
+
+    qid_cwid_label[301] = src_cwid
+    # print("==> qid_cwid_label :",qid_cwid_label)
+    # print("==> qid_cwid_label[301] :", qid_cwid_label[301])
     test_qids =[qid for qid in qids if qid in qid_cwid_label]
-    _log.info('%s test_num %d '%(p['test_year'], len(test_qids)))
+    # _log.info('%s test_num %d '%(p['test_year'], len(test_qids)))
 
     f_ndcg=dict()
     f_epochs = set()
     # sort weights by time and only use the first weights for each epoch
     # (in case there are duplicate weights from a failed/re-run train)
+    print("0 loop start...")
     for f in sorted(os.listdir(weight_dir),
                     key=lambda x: os.path.getctime(os.path.join(weight_dir, x))):
+        print("1 loop start...")
         if f.split('.')[-1] != 'h5':
             continue
         cols = f.split('.')[0].split('_')
-        if len(cols) == 4:
+        if len(cols) >= 4:
             nb_epoch, loss, n_batch, n_samples = int(cols[0]), int(cols[1]), int(cols[2]), int(cols[3])
             if nb_epoch <= p['epochs'] and nb_epoch not in f_epochs:
                 f_epochs.add(nb_epoch)
                 f_ndcg[f]=(nb_epoch, loss, n_batch, n_samples)
 
-
+    print("f_ndcg :",f_ndcg)
     finished_epochs = {}
-    for fn in sorted(os.listdir(outdir_run),
-                     key=lambda x: os.path.getctime(os.path.join(outdir_run, x))):
-        if fn.endswith(".run"):
-            fields = fn[:-4].split("_") # trim .run
-            assert len(fields) == 5
-            
-            epoch, loss = int(fields[0]), int(fields[4])
-            ndcg, mapv, err = float(fields[1]), float(fields[2]), float(fields[3])
+    # for fn in sorted(os.listdir(outdir_run),
+    #                  key=lambda x: os.path.getctime(os.path.join(outdir_run, x))):
+    #     if fn.endswith(".run"):
+    #         fields = fn[:-4].split("_") # trim .run
+    #         assert len(fields) == 5
+    #
+    #         epoch, loss = int(fields[0]), int(fields[4])
+    #         ndcg, mapv, err = float(fields[1]), float(fields[2]), float(fields[3])
+    #
+    #         #assert epoch not in finished_epochs
+    #         # if epoch in finished_epochs:
+    #         #     _log.error("TODO two weights exist for same epoch")
+    #         finished_epochs[epoch] = (epoch, err, ndcg, mapv, loss)
 
-            #assert epoch not in finished_epochs
-            if epoch in finished_epochs:
-                _log.error("TODO two weights exist for same epoch")
-            finished_epochs[epoch] = (epoch, err, ndcg, mapv, loss)
-                            
-    _log.info('skipping finished epochs: {0}'.format(finished_epochs))
+    # _log.info('skipping finished epochs: {0}'.format(finished_epochs))
 
     def model_pred(NGRAM_NFILTER, weight_file, test_data, test_docids, test_qids):
         dump_modelplot(model.build(), detail_outdir + 'predplot_' + expid)
@@ -182,28 +226,42 @@ def pred(_log, _config):
         qid_cwid_pred = pred_label(model_predict, test_data, test_docids, test_qids)
         return qid_cwid_pred
 
-    test_doc_vec, test_docids, test_qids=load_test_data(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, p)
-    print("test_doc_vec , test_docids,test_qids:",test_doc_vec, test_docids, test_qids)
+    test_doc_vec, test_docids, test_qids=load_test_data_new(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, p,src_sim_doc_array,src_sim_topic_array,query_idf)
+    # print("test_doc_vec , test_docids,test_qids:",test_doc_vec, test_docids, test_qids)
     epoch_err_ndcg_loss=list()
-    _log.info('start {0} {1} {2}'.format(expid, p['train_years'], p['test_year']))
-    for f in sorted(f_ndcg, key=lambda x:f_ndcg[x][0]):
-        nb_epoch, loss, n_batch, n_samples = f_ndcg[f]
-        if nb_epoch in finished_epochs:
-            epoch_err_ndcg_loss.append(finished_epochs[nb_epoch])
-            continue
-        weight_file = os.path.join(weight_dir, f)
-        qid_cwid_pred = model_pred(NGRAM_NFILTER, weight_file, test_doc_vec, test_docids, test_qids)
-        print("==> qid_cwid_pred :",qid_cwid_pred)
-        ndcg20, err20, mapv = eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, topk4eval, qrelf)
-        print("==>ndcg20,err20,mapv:", ndcg20, err20, mapv) 
-        loss = int(loss)
-        out_name = '%d_%0.4f_%0.4f_%0.4f_%d.run' % (nb_epoch, ndcg20, mapv, err20, loss)
-        epoch_err_ndcg_loss.append((nb_epoch, err20, ndcg20, mapv, loss))
-        print_run(qid_cwid_pred, outdir_run, out_name, expid)
-        _log.info('finished {0}'.format(f))
-    _log.info('finish {0} {1} {2}'.format(expid, p['train_years'], p['test_year']))
+    # _log.info('start {0} {1} {2}'.format(expid, p['train_years'], p['test_year']))
 
-    plot_curve(epoch_err_ndcg_loss, outdir_plot, expid, p)
+    rank_idx_dict = {}
+    rank_value_dict = {}
+    try :
+        for f in sorted(f_ndcg, key=lambda x:f_ndcg[x][0]):
+            print("loop start...")
+            nb_epoch, loss, n_batch, n_samples = f_ndcg[f]
+            if nb_epoch in finished_epochs:
+                epoch_err_ndcg_loss.append(finished_epochs[nb_epoch])
+                continue
+            weight_file = os.path.join(weight_dir, f)
+            # print("weight_file :",weight_file)
+            print("loss :", loss)
+            qid_cwid_pred = model_pred(NGRAM_NFILTER, weight_file, test_doc_vec, test_docids, test_qids)
+            # print("==> qid_cwid_pred :",qid_cwid_pred)
+            eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, topk4eval, qrelf,rank_idx_dict,rank_value_dict)
+            # ndcg20, err20, mapv = eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, topk4eval, qrelf)
+            # print("==>ndcg20,err20,mapv:", ndcg20, err20, mapv)
+            # loss = int(loss)
 
-    if max(f_epochs) < p['epochs'] - 3:
-        raise SoftFailure("prediction finished, but not all epochs are available yet. last epoch found: %s" % max(f_epochs))
+        #     out_name = '%d_%0.4f_%0.4f_%0.4f_%d.run' % (nb_epoch, ndcg20, mapv, err20, loss)
+        #     epoch_err_ndcg_loss.append((nb_epoch, err20, ndcg20, mapv, loss))
+        #     print_run(qid_cwid_pred, outdir_run, out_name, expid)
+        #     _log.info('finished {0}'.format(f))
+        # _log.info('finish {0} {1} {2}'.format(expid, p['train_years'], p['test_year']))
+    except :
+        pass
+    K.clear_session()
+    return rank_idx_dict,rank_value_dict
+
+
+    # plot_curve(epoch_err_ndcg_loss, outdir_plot, expid, p)
+    #
+    # if max(f_epochs) < p['epochs'] - 3:
+    #     raise SoftFailure("prediction finished, but not all epochs are available yet. last epoch found: %s" % max(f_epochs))

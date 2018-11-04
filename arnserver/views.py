@@ -48,7 +48,7 @@ import glob
 import yake
 import csv
 from .pred_per_epoch import *
-
+from .train_model import  *
 PRINT_LOG = True
 
 
@@ -563,10 +563,12 @@ class SearchQuery(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument("querystring", type=str, location="json")
+        self.parser.add_argument("type", type=str, location="json")
 
         self.token_manager = TokenManager.instance()
 
         self.querystring = self.parser.parse_args()["querystring"]
+        self.type = self.parser.parse_args()["type"]
         super(SearchQuery, self).__init__()
 
     def post(self):
@@ -576,25 +578,54 @@ class SearchQuery(Resource):
         print("querystring :",self.querystring)
         sim_cos_list = TB_SIM_COS.query.all()
         print("sim_cos_list len :", len(sim_cos_list))
+        query_sim_cos = TB_KEYWORD.query.filter_by(k_word=self.querystring).first()
+        print("query_sim_cos :", query_sim_cos.k_idf)
+        print("sim_cos_list len :", len(sim_cos_list))
+        objParam= {
+            'expname': 'pacrrpub',
+            'train_years': 'wt09_10',
+            'test_year': 'wt15',
+            'numneg': 6,
+            'batch': 32,
+            'winlen': 1,
+            'kmaxpool': 3,
+            'binmat': False,
+            'context': False,
+            'combine': 16,
+            'iterations': 10,
+            'shuffle': False,
+            'parentdir': '/home/ubuntu/copacrr',
+            'modelfn':'pacrr',
+            'seed':7541,
+            'qproximity':0,
+            'maxqlen':16,
+            'xfilters':'',
+            'simdim':800,
+            'epochs':10,
+            'nsamples':2048,
+            'ud':True,
+            'ut':True,
+            'distill':'firstk',
+            'nfilter':32,
+            'cascade':'',
+            'type':self.type
 
-        # objParam= {
-        #     'expname': 'pacrrpub',
-        #     'train_years': 'wt09_10',
-        #     'test_year': 'wt15',
-        #     'numneg': 6,
-        #     'batch': 32,
-        #     'winlen': 1,
-        #     'kmaxpool': 3,
-        #     'binmat': False,
-        #     'context': False,
-        #     'combine': 16,
-        #     'iterations': 10,
-        #     'shuffle': False,
-        #     'parentdir': '/home/ubuntu/copacrr',
-        #     'modelfn':'pacrr'
-        # }
-        # print("param obj :",objParam)
-        # pred(_log=None,_config=objParam)
+        }
+        print("param obj :",objParam)
+        rank_idx_dict,rank_value_dict = pred(_log=None,_config=objParam,_srcList=sim_cos_list,_query_idf=query_sim_cos)
+        # print("rank_idx_dict :",rank_idx_dict)
+        # print("rank_value_dict :", rank_value_dict)
+        for rank in range(1,len(rank_idx_dict)) :
+            print("s_idx : ",rank_idx_dict[rank], ",values : ",rank_value_dict[rank])
+            query = "SELECT idx,f_topic,substring(f_doc,1,80) as f_doc FROM tb_files WHERE f_idx_string = '{0}'  LIMIT 1".format(rank_idx_dict[rank])
+            results = TB_FILES.query.from_statement(query).first()
+            obj = {
+                'f_idx_string':rank_idx_dict[rank],
+                'f_topic':results.f_topic,
+                'f_doc':results.f_doc,
+                'rank':str(rank)
+            }
+            objects.append(obj)
         Log("[SearchQuery SUCCESS]")
         return result(200, "SearchQuery successful.", objects, None, "by sisung ")
         # except:
@@ -602,6 +633,101 @@ class SearchQuery(Resource):
         #     return result(400, "SearchQuery exception ", None, None, "by sisung ")
         return result(400, "SearchQuery failed.", objects, None, "by sisung")
 
+@app.route('/')
+class Trainning(Resource):
+    """
+    [ Trainning ]
+    For Trainning
+    @ GET : Returns Result
+    by sisung
+    """
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument("epoch", type=str, location="json")
+        self.parser.add_argument("squery_count", type=str, location="json")
+
+        self.token_manager = TokenManager.instance()
+
+        self.epoch = self.parser.parse_args()["epoch"]
+        self.squery_count = self.parser.parse_args()["squery_count"]
+        super(Trainning, self).__init__()
+
+    def post(self):
+        # try:
+        objects = []
+        Log("[Trainning START...]")
+        print("epoch :",self.epoch,",squery_count :",self.squery_count)
+
+        query_sim_cos_list = TB_KEYWORD.query.limit(self.squery_count).all()
+        for query_sim in query_sim_cos_list :
+            sim_cos_list = TB_SIM_COS.query.filter_by(f_idx_string=query_sim.f_idx_string).all()
+            for sim_cos in sim_cos_list :
+                obj = {
+                    'label':'1',
+                    'sim_doc' :sim_cos.s_sim_cos_doc,
+                    'sim_topic':sim_cos.s_sim_cos_doc
+                }
+                objects.append(obj)
+            sim_cos_list = TB_SIM_COS.query.filter(TB_SIM_COS.f_idx_string!=query_sim.f_idx_string).limit(10).all()
+            for sim_cos in sim_cos_list :
+                obj = {
+                    'label':'0',
+                    'sim_doc' :sim_cos.s_sim_cos_doc,
+                    'sim_topic':sim_cos.s_sim_cos_doc
+                }
+                objects.append(obj)
+
+        print("objects len:", len(objects))
+        objParam= {
+            'expname': 'pacrrpub',
+            'train_years': 'wt09_10',
+            'numneg': 6,
+            'batch': 32,
+            'winlen': 1,
+            'kmaxpool': 3,
+            'binmat': False,
+            'context': False,
+            'combine': 16,
+            'iterations': 10,
+            'shuffle': False,
+            'parentdir': '/home/ubuntu/copacrr',
+            'modelfn':'pacrr',
+            'seed':7541,
+            'qproximity':0,
+            'maxqlen':16,
+            'xfilters':'',
+            'simdim':800,
+            'epochs':self.epoch,
+            'nsamples':2048,
+            'ud':True,
+            'ut':True,
+            'distill':'firstk',
+            'nfilter':32,
+            'cascade':''
+        }
+        print("param obj :",objParam)
+        train_model(_log=None, _config=objParam, _objects=objects)
+        # rank_idx_dict,rank_value_dict = pred(_log=None,_config=objParam,_srcList=sim_cos_list,_query_idf=query_sim_cos)
+        # # print("rank_idx_dict :",rank_idx_dict)
+        # # print("rank_value_dict :", rank_value_dict)
+        # for rank in range(1,len(rank_idx_dict)) :
+        #     print("s_idx : ",rank_idx_dict[rank], ",values : ",rank_value_dict[rank])
+        #     query = "SELECT idx,f_topic,substring(f_doc,1,80) as f_doc FROM tb_files WHERE f_idx_string = '{0}'  LIMIT 1".format(rank_idx_dict[rank])
+        #     results = TB_FILES.query.from_statement(query).first()
+        #     obj = {
+        #         'f_idx_string':rank_idx_dict[rank],
+        #         'f_topic':results.f_topic,
+        #         'f_doc':results.f_doc,
+        #         'rank':str(rank)
+        #     }
+        #     objects.append(obj)
+        # Log("[SearchQuery SUCCESS]")
+        # return result(200, "SearchQuery successful.", objects, None, "by sisung ")
+        # except:
+        #     Log("[SearchQuery exception]")
+        #     return result(400, "SearchQuery exception ", None, None, "by sisung ")
+        return result(400, "Trainning failed.", objects, None, "by sisung")
 api = Api(app)
 
 # Basic URI
@@ -609,3 +735,4 @@ api = Api(app)
 api.add_resource(Login, '/Login')
 api.add_resource(LoadSrcFile, '/LoadSrcFile')
 api.add_resource(SearchQuery, '/SearchQuery')
+api.add_resource(Trainning, '/Trainning')
