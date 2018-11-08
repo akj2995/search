@@ -129,8 +129,8 @@ def train_model(_log, _config,_query_objects):
     dump_modelplot(built_model, detail_outdir + 'model_' + expid)
 
     # callback function, dump the model and compute ndcg/map
-    # dump_weight = DumpWeight(outdir, batch_size=p['batch'], nb_sample=p['nsamples'])
-    dump_weight = keras.callbacks.TensorBoard(log_dir='./graph',histogram_freq=0,write_graph=True,write_images=True)
+    dump_weight = DumpWeight(outdir, batch_size=p['batch'], nb_sample=p['nsamples'])
+    # dump_weight = keras.callbacks.TensorBoard(log_dir='./graph',histogram_freq=0,write_graph=True,write_images=True)
     # keras 2 steps per epoch is number of batches per epoch, not number of samples per epoch
     steps_per_epoch = np.int(p['nsamples'] / p['batch'])
 

@@ -612,8 +612,7 @@ def load_test_data(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, param_val):
     return test_data, cwids, testqids
 
 
-def load_test_data_new(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, param_val, src_sim_doc_array, src_sim_topic_array,
-                       query_idf):
+def load_test_data_new(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, param_val, src_sim_doc_array, src_sim_topic_array,qid_topic_idf,qid_desc_idf):
     POS_METHOD = param_val['distill']
     SIM_DIM = param_val['simdim']
     NUM_NEG = param_val['numneg']
@@ -627,10 +626,7 @@ def load_test_data_new(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, param_val,
 
     select_pos_func = getattr(select_doc_pos, 'select_pos_%s' % POS_METHOD)
     # qid_topic_idf, qid_desc_idf = load_query_idf(qids, rawdoc_mat_dir)
-    qid_topic_idf = dict()
-    qid_desc_idf = dict()
-    qid_topic_idf[301] = np.array([float(query_idf.k_idf)])
-    qid_desc_idf[301] = np.array([float(query_idf.k_idf)])
+
     # print("qid_topic_idf : ", qid_topic_idf)
     # print("qid_desc_idf : ", qid_desc_idf)
     qid_cwid_rmat, qid_term_idf = _load_doc_mat_desc_new(src_sim_doc_array, src_sim_topic_array, qids, qid_cwid_label,

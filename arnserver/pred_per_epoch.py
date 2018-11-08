@@ -54,7 +54,7 @@ def plot_curve(epoch_err_ndcg_loss, outdir, plot_id, p):
     plt.close()
 
 
-def eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, k, qrelf,rank_idx_dict,rank_value_dict):
+def eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, k, rank_idx_dict,rank_value_dict):
 
     for qid in sorted(qid_cwid_pred):
         print("eval_run qid : ",qid)
@@ -108,12 +108,9 @@ def print_run(qid_cwid_pred, outdir, outfname, run_id):
 
 
 @ex.automain
-def pred(_log, _config,_srcList,_query_idf):
+def pred(_log, _config,_query_obj):
 
     p = _config
-    query_idf = _query_idf
-    srcList = _srcList
-    # print("pred params : ",p)
     modelname = file2name[p['modelfn']]
     mod_model = importlib.import_module('.models.%s' % p['modelfn'],package='arnserver')
     model_cls = getattr(mod_model, modelname)
@@ -126,11 +123,7 @@ def pred(_log, _config,_srcList,_query_idf):
                                                               p['expname'], p['test_year'])
     outdir_run='%s/%s'%(outdir_plot, expid)
     tmp_dir=os.path.join(outdir_run,'tmp')
-    if p['type'] == '1' :
-        weight_dir = '%s/train_%s/%s/model_weight/test1' % (p['parentdir'], p['train_years'], p['expname'])
-    else:
-        weight_dir = '%s/train_%s/%s/model_weight/test2' % (p['parentdir'], p['train_years'], p['expname'])
-    #weight_dir='%s/train_%s/%s/model_weight/%s' % (p['parentdir'], p['train_years'],p['expname'], expid)
+    weight_dir='%s/train_%s/%s/model_weight/%s' % (p['parentdir'], p['train_years'],p['expname'], expid)
     detail_outdir='%s/train_%s/%s/model_detail/' % (p['parentdir'], p['train_years'], p['expname'])
 
     # del_dir = '%s/train_%s/%s/predict_per_epoch/*.*' % (p['parentdir'], p['train_years'],p['expname'])
@@ -162,27 +155,28 @@ def pred(_log, _config,_srcList,_query_idf):
     # _log.info('{0} {1} {2} {3} {4}'.format(p['distill'], 'NGRAM_NFILTER', NGRAM_NFILTER, 'N_GRAMS', N_GRAMS))
 
     # prepare train data
-    qids = get_train_qids(p['test_year'])
-    # print("==> qids : ",qids)
-    #qids = [1,2,3,4,5]
-    qrelf = get_qrelf(qrelfdir, p['test_year'])
-    # print("==> qrelf : ",qrelf)
-    # qid_cwid_label = read_qrel(qrelf, qids, include_spam=False)
+    qid = int(_query_obj['k_word'])
+    qids = [qid]
+    print("==> qids : ",qids)
     qid_cwid_label = dict()
     src_cwid = []
     src_sim_doc_array = dict()
     src_sim_topic_array = dict()
-    import ast
-    sim_array = {}
-    for src in srcList :
-        src_cwid.append(src.f_idx_string)
-        sim_array[src.f_idx_string] = ast.literal_eval(src.s_sim_cos_doc)
-    src_sim_doc_array[301] = sim_array[src.f_idx_string]
-    src_sim_topic_array[301] = sim_array[src.f_idx_string]
-    qid_cwid_label[301] = src_cwid
-    # print("==> qid_cwid_label :",qid_cwid_label)
-    # print("==> qid_cwid_label[301] :", qid_cwid_label[301])
-    test_qids =[qid for qid in qids if qid in qid_cwid_label]
+    sim_doc_array = {}
+    sim_topic_array = {}
+
+    for src in _query_obj['doc_matrix'] :
+        src_cwid.append(src['f_idx_string'])
+        sim_doc_array[src['f_idx_string']] = src['sim_doc']
+        sim_topic_array[src['f_idx_string']] = src['sim_topic']
+    src_sim_doc_array[qid] = sim_doc_array
+    src_sim_topic_array[qid] = sim_topic_array
+    qid_topic_idf = {}
+    qid_desc_idf = {}
+    qid_topic_idf[qid] = _query_obj['k_topic_idf']
+    qid_desc_idf[qid] = _query_obj['k_desc_idf']
+    qid_cwid_label[qid] = src_cwid
+    # test_qids =[qid for qid in qids if qid in qid_cwid_label]
     # _log.info('%s test_num %d '%(p['test_year'], len(test_qids)))
 
     f_ndcg=dict()
@@ -226,37 +220,37 @@ def pred(_log, _config,_srcList,_query_idf):
         qid_cwid_pred = pred_label(model_predict, test_data, test_docids, test_qids)
         return qid_cwid_pred
 
-    test_doc_vec, test_docids, test_qids=load_test_data_new(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, p,src_sim_doc_array,src_sim_topic_array,query_idf)
+    test_doc_vec, test_docids, test_qids=load_test_data_new(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, p,src_sim_doc_array,src_sim_topic_array,qid_topic_idf,qid_desc_idf)
     # print("test_doc_vec , test_docids,test_qids:",test_doc_vec, test_docids, test_qids)
     epoch_err_ndcg_loss=list()
     # _log.info('start {0} {1} {2}'.format(expid, p['train_years'], p['test_year']))
 
     rank_idx_dict = {}
     rank_value_dict = {}
-    try :
-        for f in sorted(f_ndcg, key=lambda x:f_ndcg[x][0]):
-            print("loop start...")
-            nb_epoch, loss, n_batch, n_samples = f_ndcg[f]
-            if nb_epoch in finished_epochs:
-                epoch_err_ndcg_loss.append(finished_epochs[nb_epoch])
-                continue
-            weight_file = os.path.join(weight_dir, f)
-            # print("weight_file :",weight_file)
-            print("loss :", loss)
-            qid_cwid_pred = model_pred(NGRAM_NFILTER, weight_file, test_doc_vec, test_docids, test_qids)
-            # print("==> qid_cwid_pred :",qid_cwid_pred)
-            eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, topk4eval, qrelf,rank_idx_dict,rank_value_dict)
-            # ndcg20, err20, mapv = eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, topk4eval, qrelf)
-            # print("==>ndcg20,err20,mapv:", ndcg20, err20, mapv)
-            # loss = int(loss)
+    # try :
+    for f in sorted(f_ndcg, key=lambda x:f_ndcg[x][0]):
+        print("loop start...")
+        nb_epoch, loss, n_batch, n_samples = f_ndcg[f]
+        if nb_epoch in finished_epochs:
+            epoch_err_ndcg_loss.append(finished_epochs[nb_epoch])
+            continue
+        weight_file = os.path.join(weight_dir, f)
+        # print("weight_file :",weight_file)
+        print("loss :", loss)
+        qid_cwid_pred = model_pred(NGRAM_NFILTER, weight_file, test_doc_vec, test_docids, test_qids)
+        # print("==> qid_cwid_pred :",qid_cwid_pred)
+        eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, topk4eval, rank_idx_dict,rank_value_dict)
+        # ndcg20, err20, mapv = eval_run(_log, qid_cwid_pred, expid, perlf, treceval, tmp_dir, topk4eval, qrelf)
+        # print("==>ndcg20,err20,mapv:", ndcg20, err20, mapv)
+        # loss = int(loss)
 
-        #     out_name = '%d_%0.4f_%0.4f_%0.4f_%d.run' % (nb_epoch, ndcg20, mapv, err20, loss)
-        #     epoch_err_ndcg_loss.append((nb_epoch, err20, ndcg20, mapv, loss))
-        #     print_run(qid_cwid_pred, outdir_run, out_name, expid)
-        #     _log.info('finished {0}'.format(f))
-        # _log.info('finish {0} {1} {2}'.format(expid, p['train_years'], p['test_year']))
-    except :
-        pass
+    #     out_name = '%d_%0.4f_%0.4f_%0.4f_%d.run' % (nb_epoch, ndcg20, mapv, err20, loss)
+    #     epoch_err_ndcg_loss.append((nb_epoch, err20, ndcg20, mapv, loss))
+    #     print_run(qid_cwid_pred, outdir_run, out_name, expid)
+    #     _log.info('finished {0}'.format(f))
+    # _log.info('finish {0} {1} {2}'.format(expid, p['train_years'], p['test_year']))
+    # except :
+    #     pass
     K.clear_session()
     return rank_idx_dict,rank_value_dict
 

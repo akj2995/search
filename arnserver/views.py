@@ -583,13 +583,31 @@ class SearchQuery(Resource):
         # try:
         objects = []
         Log("[SearchQuery START...]")
-        print("querystring :",self.querystring)
-        sim_cos_list = TB_SIM_COS.query.all()
-        print("sim_cos_list len :", len(sim_cos_list))
+        print("group_path:",self.group_path,",querystring :",self.querystring)
         group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
-        query_sim_cos = TB_KEYWORD.query.filter_by(f_group_idx=group.idx).filter_by(k_word=self.querystring).first()
-        print("query_sim_cos :", query_sim_cos.k_idf)
+        query_sim = TB_KEYWORD.query.filter_by(f_group_idx=group.idx).filter_by(k_word=self.querystring).first()
+        print("k_topic_idf :", query_sim.k_topic_idf)
+        sim_cos_list = TB_SIM_COS.query.filter_by(f_group_idx=group.idx).filter_by(k_word=self.querystring).all()
         print("sim_cos_list len :", len(sim_cos_list))
+        objects = []
+        for sim_cos in sim_cos_list:
+            obj = {
+                'f_idx_string': sim_cos.f_idx_string,
+                "sim_doc": np.array(ast.literal_eval(sim_cos.s_sim_cos_topic), dtype=float),
+                "sim_topic": np.array(ast.literal_eval(sim_cos.s_sim_cos_doc), dtype=float),
+                'label': sim_cos.label,
+            }
+            # print("obj label : ",obj)
+            objects.append(obj)
+        query_obj = {
+            "k_word": query_sim.k_word,
+            "k_topic_idf": np.array(ast.literal_eval(query_sim.k_topic_idf), dtype=float),
+            "k_desc_idf": np.array(ast.literal_eval(query_sim.k_desc_idf), dtype=float),
+            "doc_matrix": objects
+        }
+        # print("query_obj : ", query_obj)
+
+
         objParam= {
             'expname': 'pacrrpub',
             'train_years': 'wt09_10',
@@ -603,38 +621,38 @@ class SearchQuery(Resource):
             'combine': 16,
             'iterations': 10,
             'shuffle': False,
-            'parentdir': '/home/ubuntu/copacrr',
+            'parentdir': '/home/ubuntu/search/env/Scripts',
             'modelfn':'pacrr',
             'seed':7541,
             'qproximity':0,
             'maxqlen':16,
             'xfilters':'',
             'simdim':800,
-            'epochs':10,
+            'epochs':50,
             'nsamples':2048,
             'ud':True,
             'ut':True,
             'distill':'firstk',
             'nfilter':32,
             'cascade':'',
-            'type':self.type
+            'type':1
 
         }
         print("param obj :",objParam)
-        rank_idx_dict,rank_value_dict = pred(_log=None,_config=objParam,_srcList=sim_cos_list,_query_idf=query_sim_cos)
-        # print("rank_idx_dict :",rank_idx_dict)
+        rank_idx_dict,rank_value_dict = pred(_log=None,_config=objParam,_query_obj=query_obj)
+        print("rank_idx_dict :",rank_idx_dict)
         # print("rank_value_dict :", rank_value_dict)
-        for rank in range(1,len(rank_idx_dict)) :
-            print("s_idx : ",rank_idx_dict[rank], ",values : ",rank_value_dict[rank])
-            query = "SELECT idx,f_topic,substring(f_doc,1,80) as f_doc FROM tb_files WHERE f_group_idx={0} and f_idx_string = '{1}'  LIMIT 1".format(group.idx,rank_idx_dict[rank])
-            results = TB_FILES.query.from_statement(query).first()
-            obj = {
-                'f_idx_string':rank_idx_dict[rank],
-                'f_topic':results.f_topic,
-                'f_doc':results.f_doc,
-                'rank':str(rank)
-            }
-            objects.append(obj)
+        # for rank in range(1,len(rank_idx_dict)) :
+        #     print("s_idx : ",rank_idx_dict[rank], ",values : ",rank_value_dict[rank])
+        #     query = "SELECT idx,f_topic,substring(f_doc,1,80) as f_doc FROM tb_files WHERE f_group_idx={0} and f_idx_string = '{1}'  LIMIT 1".format(group.idx,rank_idx_dict[rank])
+        #     results = TB_FILES.query.from_statement(query).first()
+        #     obj = {
+        #         'f_idx_string':rank_idx_dict[rank],
+        #         'f_topic':results.f_topic,
+        #         'f_doc':results.f_doc,
+        #         'rank':str(rank)
+        #     }
+        #     objects.append(obj)
         Log("[SearchQuery SUCCESS]")
         return result(200, "SearchQuery successful.", objects, None, "by sisung ")
         # except:
@@ -708,7 +726,7 @@ class Trainning(Resource):
             'combine': 16,
             'iterations': self.epoch,
             'shuffle': False,
-            'parentdir': '/home/ubuntu/copacrr',
+            'parentdir': '/home/ubuntu/search/env/Scripts',
             'modelfn':'pacrr',
             'seed':7541,
             'qproximity':0,
@@ -945,6 +963,111 @@ class DocDetail(Resource):
             return result(200, "DocDetail successful.", file.f_doc, None, "by sisung ")
         return result(400, "DocDetail not founded.", None, None, "by sisung ")
 
+@app.route('/')
+class DomainFileList(Resource):
+    """
+    [ DomainFileList ]
+    For Mobile Auth
+    @ GET : Returns Result
+    by sisung
+    """
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        print("DocDDomainFileListetail init")
+        self.parser.add_argument("group_path", type=str, location="json")
+        self.token_manager = TokenManager.instance()
+        print("self.parser.parse_args() : ",self.parser.parse_args())
+        self.group_path = self.parser.parse_args()["group_path"]
+        super(DomainFileList, self).__init__()
+
+    def post(self):
+        # try:
+        print("DomainFileList start")
+        group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
+        objects = []
+        files = TB_FILES.query.filter_by(f_group_idx=group.idx).limit(10).all()
+        for file in files :
+            objects.append({
+                'f_idx_string': file.f_idx_string,
+                'f_topic': file.f_topic,
+                'f_doc': file.f_doc,
+                'f_topic_words': file.f_topic_words,
+                'f_doc_words': file.f_doc_words
+            })
+        return result(200, "DomainFileList successful.", objects, None, "by sisung ")
+
+@app.route('/')
+class DomainKeywordList(Resource):
+    """
+    [ DomainKeywordList ]
+    For Mobile Auth
+    @ GET : Returns Result
+    by sisung
+    """
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        print("DomainKeywordList init")
+        self.parser.add_argument("group_path", type=str, location="json")
+        self.token_manager = TokenManager.instance()
+        print("self.parser.parse_args() : ",self.parser.parse_args())
+        self.group_path = self.parser.parse_args()["group_path"]
+        super(DomainKeywordList, self).__init__()
+
+    def post(self):
+        # try:
+        print("DomainKeywordList start")
+        group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
+        objects = []
+        keywordlist = TB_KEYWORD.query.filter_by(f_group_idx=group.idx).limit(20).all()
+        for keyword in keywordlist :
+            objects.append({
+                'idx': keyword.idx,
+                'f_idx_string': keyword.f_idx_string,
+                'k_word': keyword.k_word,
+                'k_topic_idf': keyword.k_topic_idf,
+                'f_topic_words': keyword.f_topic_words,
+                'k_desc_idf': keyword.k_desc_idf
+            })
+        return result(200, "DomainKeywordList successful.", objects, None, "by sisung ")
+
+@app.route('/')
+class DomainSimMatList(Resource):
+    """
+    [ DomainSimMatList ]
+    For Mobile Auth
+    @ GET : Returns Result
+    by sisung
+    """
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        print("DomainKeywordList init")
+        self.parser.add_argument("group_path", type=str, location="json")
+        self.parser.add_argument("fk_k_idx", type=str, location="json")
+        self.token_manager = TokenManager.instance()
+        print("self.parser.parse_args() : ",self.parser.parse_args())
+        self.group_path = self.parser.parse_args()["group_path"]
+        self.fk_k_idx = self.parser.parse_args()["fk_k_idx"]
+        super(DomainSimMatList, self).__init__()
+
+    def post(self):
+        # try:
+        print("DomainSimMatList start")
+        group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
+        objects = []
+        simmatlist = TB_SIM_COS.query.filter_by(f_group_idx=group.idx).filter_by(fk_k_idx=self.fk_k_idx).limit(20).all()
+        for simmat in simmatlist :
+            objects.append({
+                'idx': simmat.idx,
+                'f_idx_string': simmat.f_idx_string,
+                's_sim_cos_topic': str(simmat.s_sim_cos_topic)[:100],
+                's_sim_cos_doc': str(simmat.s_sim_cos_doc)[:100],
+                'label': simmat.label
+            })
+        return result(200, "DomainSimMatList successful.", objects, None, "by sisung ")
+
 api = Api(app)
 
 # Basic URI
@@ -955,3 +1078,6 @@ api.add_resource(LoadSrcFile2, '/LoadSrcFile2')
 api.add_resource(SearchQuery, '/SearchQuery')
 api.add_resource(Trainning, '/Trainning')
 api.add_resource(DocDetail, '/DocDetail')
+api.add_resource(DomainFileList, '/DomainFileList')
+api.add_resource(DomainKeywordList, '/DomainKeywordList')
+api.add_resource(DomainSimMatList, '/DomainSimMatList')
