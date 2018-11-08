@@ -1,3 +1,0 @@
-QL-Variants,Measures,TREC,Trec-Rank,Rerank,Rerank-Rank,Comparison,p-value
-cwindri,ERR,0.110,1,0.136,1,24%,0.244
-cwindri,nDCG,0.199,1,0.331,1,66%,0.001

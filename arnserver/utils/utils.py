@@ -132,16 +132,17 @@ def _load_doc_mat_desc_new(src_sim_doc_array, src_sim_topic_array, qids, qid_cwi
             h5 = h5py.File(h5fn, 'r', libver='latest')
 
     qid_cwid_simmat = dict()
+    qid_term_idf = dict()
     for qid in sorted(qids):
-        qid_term_idf = dict()
+
         if qid not in qid_cwid_label:
             logger.error('%d not in qid_cwid_label' % qid)
             continue
         qid_cwid_simmat[qid] = dict()
 
         topic_idf_arr, desc_idf_arr = qid_topic_idf[qid], qid_desc_idf[qid]
-        # print("topic_idf_arr : ", topic_idf_arr)
-        # print("desc_idf_arr : ", desc_idf_arr)
+        # print("topic_idf_arr : ", topic_idf_arr,",len : ",len(topic_idf_arr))
+        # print("desc_idf_arr : ", desc_idf_arr,",len : ",len(desc_idf_arr))
         descmax = maxqlen
         didxs = list(range(len(desc_idf_arr)))
         mi = []
@@ -160,20 +161,19 @@ def _load_doc_mat_desc_new(src_sim_doc_array, src_sim_topic_array, qids, qid_cwi
         if h5 is not None:
             docmap_d = json.loads(h5['/desc/%s' % qid].attrs['docmap'])
             docmap_t = json.loads(h5['/topic/%s' % qid].attrs['docmap'])
-
+        cur = 0
         for cwid in qid_cwid_label[qid]:
+            # print("cwid : ",cwid)
             topic_cwid_f = doc_mat_dir + '/topic_doc_mat/%d/%s.npy' % (qid, cwid)
             desc_cwid_f = doc_mat_dir + '/desc_doc_mat/%d/%s.npy' % (qid, cwid)
             topic_mat, desc_mat = np.empty((0, 0), dtype=np.float32), np.empty((0, 0), dtype=np.float32)
             if h5 is not None and cwid not in docmap_t:
                 logger.error('topic %s not exist.' % cwid)
-            # elif h5 is None and not os.path.isfile(topic_cwid_f):
-            #     logger.error('%s not exist.' % topic_cwid_f)
             elif usetopic:
                 if h5 is None:
-                    # print('src_sim_topic_array[cwid]',src_sim_doc_array[cwid])
-                    topic_mat = np.array([src_sim_doc_array[cwid]])
-                    # print("desc_mat :", topic_mat)
+                    # print('==> topic_mat len :',len(src_sim_topic_array[qid][cwid]))
+                    topic_mat = src_sim_topic_array[qid][cwid]
+                    # print("topic_mat :", topic_mat)
                     # topic_mat = np.load(topic_cwid_f)
                 else:
                     topic_mat = np.vstack(h5['/topic/%s' % qid][docmap_t[cwid]])
@@ -182,13 +182,13 @@ def _load_doc_mat_desc_new(src_sim_doc_array, src_sim_topic_array, qids, qid_cwi
                     continue
             if h5 is not None and cwid not in docmap_d:
                 logger.error('desc %s not exist.' % cwid)
-            # elif h5 is None and not os.path.isfile(desc_cwid_f):
-            #     logger.error('%s not exist.' % desc_cwid_f)
             elif usedesc:
                 if h5 is None:
                     # desc_mat = np.load(desc_cwid_f)[didxs]
-                    desc_mat = np.array([src_sim_doc_array[cwid]])
-                    # print("desc_mat :", desc_mat)
+                    desc_mat = src_sim_doc_array[qid][cwid]
+                    if cur == 0 :
+                        print("====>qid : ", qid, ", desc_mat :", desc_mat)
+                    cur +=1
                 else:
                     desc_mat = np.vstack(h5['/desc/%s' % qid][docmap_d[cwid]])[didxs]
                 if len(desc_mat.shape) != 2:
@@ -205,6 +205,7 @@ def _load_doc_mat_desc_new(src_sim_doc_array, src_sim_topic_array, qids, qid_cwi
                 m.append(desc_mat)
                 if desc_mat.shape[1] > 0:
                     empty = False
+            # print("topic_mat.shape[1] :",topic_mat.shape[1], ",desc_mat.shape[1] :",desc_mat.shape[1])
             if usetopic and usedesc and topic_mat.shape[1] != desc_mat.shape[1]:
                 empty = True
             if not empty:
@@ -215,7 +216,8 @@ def _load_doc_mat_desc_new(src_sim_doc_array, src_sim_topic_array, qids, qid_cwi
 
     if h5 is not None:
         h5.close()
-
+    # print("qid_cwid_simmat len : ",len(qid_cwid_simmat))
+    # print("qid_cwid_simmat qid len : ", len(qid_cwid_simmat[1]))
     return qid_cwid_simmat, qid_term_idf
 
 
@@ -259,11 +261,17 @@ def convert_cwid_udim_simmat(qids, qid_cwid_rmat, select_pos_func, \
             len_query = qid_cwid_rmat[qid][cwid].shape[0]
             # if cur < 2:
             #     print("len_doc : ", len_doc, ", len_query : ", len_query)
-            cur += 1
+
+            if cur == 0 :
+                print("qid_term_idf:",qid_term_idf)
+
             if qid not in qid_ext_idfarr:
+                print(" qid : ",qid,",max_query_term : ",max_query_term,",len_query:",len_query)
                 qid_ext_idfarr[qid] = np.pad(qid_term_idf[qid], \
                                              pad_width=((0, max_query_term - len_query)), \
                                              mode='constant', constant_values=-np.inf)
+                print("qid_ext_idfarr[qid] : ",qid_ext_idfarr[qid])
+            cur += 1
             for n_gram in n_grams:
                 if n_gram not in qid_cwid_mat[qid]:
                     qid_cwid_mat[qid][n_gram] = dict()
@@ -346,6 +354,7 @@ def sample_train_data_weighted(qid_wlen_cwid_mat, qid_cwid_label, \
     qid_label_cwids = dict()
     label_count = dict()
     label_qid_count = dict()
+    print("sample_qids :",sample_qids)
     for qid in sample_qids:
         if qid not in qid_cwid_label or qid not in qid_wlen_cwid_mat:
             logger.error('%d in qid_cwid_label %r, in qid_cwid_mat %r' % \
@@ -353,6 +362,7 @@ def sample_train_data_weighted(qid_wlen_cwid_mat, qid_cwid_label, \
             continue
         qid_label_cwids[qid] = dict()
         wlen_k = list(qid_wlen_cwid_mat[qid].keys())[0]
+        # print("wlen_k :",wlen_k)
         for cwid in qid_cwid_label[qid]:
             l = label2tlabel[qid_cwid_label[qid][cwid]]
             # print("==> l :",l,", qid:",qid, ",cwid:",cwid)
@@ -371,9 +381,12 @@ def sample_train_data_weighted(qid_wlen_cwid_mat, qid_cwid_label, \
                 label_count[l] = 0
             label_count[l] += 1
         print("label_count:", label_count)
+        sample_label_prob = {1: 0.6, 2: 0.4}
+        print("sample_label_prob 1:",sample_label_prob)
     if len(sample_label_prob) == 0:
         total_count = sum([label_count[l] for l in label_count if l > 0])
         sample_label_prob = {l: label_count[l] / float(total_count) for l in label_count if l > 0}
+        print("sample_label_prob 2:", sample_label_prob)
         logger.error('nature sample_label_prob', sample_label_prob)
     label_qid_prob = dict()
     for l in label_qid_count:
@@ -381,8 +394,8 @@ def sample_train_data_weighted(qid_wlen_cwid_mat, qid_cwid_label, \
             total_count = label_count[l]
             label_qid_prob[l] = {qid: label_qid_count[l][qid] / float(total_count) for qid in label_qid_count[l]}
             print("label_qid_prob : ", label_qid_prob[l], ",L", l)
-    sample_label_qid_prob = {l: [label_qid_prob[l][qid] if qid in label_qid_prob[l] else 0 for qid in sample_qids] \
-                             for l in label_qid_prob}
+    sample_label_qid_prob = {l: [label_qid_prob[l][qid] if qid in label_qid_prob[l] else 0 for qid in sample_qids] for l in label_qid_prob}
+    # sample_label_qid_prob =  {2: [0.25, 0.25, 0.25, 0.25],1: [0.25, 0.25, 0.25, 0.25]}
     print("sample_label_qid_prob:", sample_label_qid_prob)
     cur = 0
     while 1:
@@ -398,14 +411,19 @@ def sample_train_data_weighted(qid_wlen_cwid_mat, qid_cwid_label, \
         selected_labels = np.random.choice([l for l in sorted(sample_label_prob)], \
                                            size=n_batch, replace=True,
                                            p=[sample_label_prob[l] for l in sorted(sample_label_prob)])
-        print("selected_labels :", selected_labels)
-
+        # if cur == 0:
+        #     print("selected_labels :", selected_labels)
+        print("=====> cur : ", cur, ",        selected_labels :", selected_labels)
         label_counter = Counter(selected_labels)
         total_train_num = 0
+        # if cur == 0:
+        #     print("label_counter :", label_counter)
         for label in label_counter:
             nl_selected = label_counter[label]
             if nl_selected == 0:
                 continue
+            if cur == 0:
+                print("label:",label,",sample_label_qid_prob[label] :",sample_label_qid_prob)
             selected_qids = np.random.choice(sample_qids, \
                                              size=nl_selected, replace=True, p=sample_label_qid_prob[label])
             if cur == 0:
@@ -425,9 +443,10 @@ def sample_train_data_weighted(qid_wlen_cwid_mat, qid_cwid_label, \
                     continue
                 pos_cwids = qid_label_cwids[qid][label]
                 neg_cwids = qid_label_cwids[qid][nl]
-                if cur == 0:
-                    print("pos_cwids:", pos_cwids)
-                    print("neg_cwids:", neg_cwids)
+
+                # if cur == 0:
+                #     print("pos_cwids:", pos_cwids)
+                #     print("neg_cwids:", neg_cwids)
 
                 n_pos, n_neg = len(pos_cwids), len(neg_cwids)
                 idx_poses = np.random.choice(list(range(n_pos)), size=nq_selected, replace=True)
@@ -457,45 +476,56 @@ def sample_train_data_weighted(qid_wlen_cwid_mat, qid_cwid_label, \
                             neg_batch[wlen][neg_ind].append(qid_wlen_cwid_mat[qid][wlen][n_cwid])
                             if wlen == min_wlen and context:
                                 neg_context_batch[neg_ind].append(qid_context[qid][n_cwid])
+                print("query_idfs[qid] : ",query_idfs)
                 qidf_batch.append(query_idfs[qid].reshape((1, n_query_terms, 1)).repeat(nq_selected, axis=0))
+                # print("qidf_batch : ", qidf_batch)
         total_train_num = len(ys)
-        if random_shuffle:
-            shuffled_index = np.random.permutation(list(range(total_train_num)))
-        else:
-            shuffled_index = list(range(total_train_num))
-        train_data = dict()
-        labels = np.array(ys)[shuffled_index]
+        print("total_train_num :", total_train_num)
+        if total_train_num > 0 :
+            if random_shuffle:
+                shuffled_index = np.random.permutation(list(range(total_train_num)))
+            else:
+                shuffled_index = list(range(total_train_num))
 
-        getmat = lambda x: np.array(x)
+            # print("shuffled_index :", shuffled_index)
+            train_data = dict()
+            labels = np.array(ys)[shuffled_index]
 
-        for wlen in pos_batch:
-            train_data['pos_wlen_%d' % wlen] = getmat(pos_batch[wlen])[shuffled_index, :]
-            for neg_ind in range(NUM_NEG):
-                train_data['neg%d_wlen_%d' % (neg_ind, wlen)] = np.array(getmat(neg_batch[wlen][neg_ind]))[
-                                                                shuffled_index, :]
+            getmat = lambda x: np.array(x)
 
-        if binarysimm:
-            for k in train_data:
-                assert k.find("_wlen_") != -1, "data contains non-simmat objects"
-                train_data[k] = (train_data[k] >= 0.999).astype(np.int8)
+            for wlen in pos_batch:
+                train_data['pos_wlen_%d' % wlen] = getmat(pos_batch[wlen])[shuffled_index, :]
+                for neg_ind in range(NUM_NEG):
+                    train_data['neg%d_wlen_%d' % (neg_ind, wlen)] = np.array(getmat(neg_batch[wlen][neg_ind]))[
+                                                                    shuffled_index, :]
 
-        if context:
-            train_data['pos_context'] = np.array(pos_context_batch)[shuffled_index]
-            for neg_ind in range(NUM_NEG):
-                train_data['neg%d_context' % neg_ind] = np.array(neg_context_batch[neg_ind])[shuffled_index]
+            if binarysimm:
+                for k in train_data:
+                    assert k.find("_wlen_") != -1, "data contains non-simmat objects"
+                    train_data[k] = (train_data[k] >= 0.999).astype(np.int8)
 
-        train_data['query_idf'] = np.concatenate(qidf_batch, axis=0)[shuffled_index, :]
+            if context:
+                train_data['pos_context'] = np.array(pos_context_batch)[shuffled_index]
+                for neg_ind in range(NUM_NEG):
+                    train_data['neg%d_context' % neg_ind] = np.array(neg_context_batch[neg_ind])[shuffled_index]
 
-        train_data['permute'] = np.array([[(bi, qi) for qi in np.random.permutation(n_query_terms)]
-                                          for bi in range(n_batch)], dtype=np.int)
-        if cur == 0:
-            print("train_data[query_idf]:", train_data['query_idf'])
-            print("train_data[permute]:", train_data['permute'])
+            train_data['query_idf'] = np.concatenate(qidf_batch, axis=0)[shuffled_index, :]
+
+            train_data['permute'] = np.array([[(bi, qi) for qi in np.random.permutation(n_query_terms)]
+                                              for bi in range(n_batch)], dtype=np.int)
+            # if cur == 0:
+            #     print("train_data[query_idf]:", train_data['query_idf'])
+            #     print("train_data[permute]:", train_data['permute'])
 
             print("labels : ", labels)
 
-        cur += 1
-        yield (train_data, labels)
+            cur += 1
+            yield (train_data, labels)
+        # except :
+        #     cur += 1
+        #     print("=====> cur : ",cur,",exception!!!")
+        #     continue
+
 
 
 def dump_modelplot(model, model_file):
@@ -690,6 +720,10 @@ def load_train_data_generator(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, par
     select_pos_func = getattr(select_doc_pos, 'select_pos_%s' % POS_METHOD)
     qid_topic_idf, qid_desc_idf = load_query_idf(qids, rawdoc_mat_dir)
     print("qid_topic_idf:", qid_topic_idf, ",qid_desc_idf :", qid_desc_idf)
+    print("==> qids:",qids)
+    print("==> qid_cwid_label:", qid_cwid_label)
+    print("==> qid_topic_idf:", qid_topic_idf)
+    print("==> qid_desc_idf:", qid_desc_idf)
     qid_cwid_rmat, qid_term_idf = _load_doc_mat_desc(qids, qid_cwid_label, rawdoc_mat_dir, qid_topic_idf, qid_desc_idf,
                                                      usetopic=param_val['ut'], usedesc=param_val['ud'],
                                                      maxqlen=MAX_QUERY_LENGTH)
@@ -704,10 +738,76 @@ def load_train_data_generator(qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, par
             if cur > 2:
                 break
             cur += 1
+    # for idf in qid_term_idf:
+    #     print("qqid_term_id len:", len(qid_term_idf[idf]), " idf : ", idf)
+    #     print("qqid_term_id :", qid_term_idf[idf])
+    #
+    qid_cwid_rqexpmat = None
+    qid_wlen_cwid_mat, qid_ext_idfarr, qid_context = convert_cwid_udim_simmat(qids, qid_cwid_rmat, select_pos_func,
+                                                                              qid_term_idf, qid_cwid_rqexpmat, \
+                                                                              dim_sim=SIM_DIM,
+                                                                              max_query_term=MAX_QUERY_LENGTH,
+                                                                              n_grams=mat_ngrams, context=CONTEXT)
+    train_data_generator = \
+        sample_train_data_weighted(qid_wlen_cwid_mat, qid_cwid_label, qid_ext_idfarr, qids, \
+                                   binarysimm=binarysimm, label2tlabel=label2tlabel, \
+                                   sample_label_prob=sample_label_prob, \
+                                   n_query_terms=MAX_QUERY_LENGTH, NUM_NEG=NUM_NEG, \
+                                   n_dims=SIM_DIM, n_batch=n_batch, random_shuffle=True, random_seed=rnd_seed,
+                                   qid_context=qid_context)
+    return train_data_generator
+
+
+def load_train_data_generator_new(src_sim_doc_array,src_sim_topic_array,qid_topic_idf,qid_desc_idf,qids, rawdoc_mat_dir, qid_cwid_label, N_GRAMS, param_val,label2tlabel={4: 2, 3: 2, 2: 2, 1: 1, 0: 0, -2: 0}, sample_label_prob={2: 0.8, 1: 0.5}):
+    print(
+        "==> load_train_data_generator qids:", qids, ", qid_cwid_label len:", len(qid_cwid_label), ",N_GRAMS : ",
+        N_GRAMS)
+    print("param_va : ", param_val)
+    POS_METHOD = param_val['distill']
+    SIM_DIM = param_val['simdim']
+    NUM_NEG = param_val['numneg']
+    MAX_QUERY_LENGTH = param_val['maxqlen']
+    binarysimm = param_val['binmat']
+    CONTEXT = param_val['context']
+    n_batch = param_val['batch']
+    rnd_seed = param_val['seed']
+    if POS_METHOD == 'firstk':
+        mat_ngrams = [max(N_GRAMS)]
+    else:
+        mat_ngrams = N_GRAMS
+    assert POS_METHOD == 'firstk' or not CONTEXT, "context is misaligned if we aren't using firstk"
+
+    if 'cw' in param_val and param_val['modelfn'] == 'cw_pacrr':
+        global contextdir
+        contextdir = os.path.join(contextdir, 'win_%s' % param_val['cw'])
+        if not os.path.exists(contextdir):
+            raise RuntimeError("missing dir for cw=%s: %s" % (param_val['cw'], contextdir))
+
+    select_pos_func = getattr(select_doc_pos, 'select_pos_%s' % POS_METHOD)
+    # qid_topic_idf, qid_desc_idf = load_query_idf(qids, rawdoc_mat_dir)
+    # print("qid_topic_idf:", qid_topic_idf, ",qid_desc_idf :", qid_desc_idf)
+    print("==> qids:",qids)
+    print("==> qid_cwid_label:", qid_cwid_label)
+    print("==> qid_topic_idf:", qid_topic_idf)
+    print("==> qid_desc_idf:", qid_desc_idf)
+    qid_cwid_rmat, qid_term_idf = _load_doc_mat_desc_new(src_sim_doc_array,src_sim_topic_array,qids, qid_cwid_label, rawdoc_mat_dir, qid_topic_idf, qid_desc_idf,
+                                                     usetopic=param_val['ut'], usedesc=param_val['ud'],
+                                                     maxqlen=MAX_QUERY_LENGTH)
+    print("qid_cwid_rmat len:", len(qid_cwid_rmat), ",qid_term_idf len:", len(qid_term_idf))
+    for cwid in qid_cwid_rmat:
+        print("qid_cwid_rmat len:", len(qid_cwid_rmat[cwid]), " cwid : ", cwid)
+        cur = 0
+        # for cwid2 in qid_cwid_rmat[cwid]:
+        #     print("qid_cwid_rmat2 len :", len(qid_cwid_rmat[cwid][cwid2]), " cwid2 : ", cwid2, ",len :",
+        #           len(qid_cwid_rmat[cwid][cwid2][1]))
+            # print("qid_cwid_rmat[cwid][cwid2][1]:",qid_cwid_rmat[cwid][cwid2][1])
+            # if cur > 2:
+            #     break
+            # cur += 1
     for idf in qid_term_idf:
         print("qqid_term_id len:", len(qid_term_idf[idf]), " idf : ", idf)
         print("qqid_term_id :", qid_term_idf[idf])
-
+    #
     qid_cwid_rqexpmat = None
     qid_wlen_cwid_mat, qid_ext_idfarr, qid_context = convert_cwid_udim_simmat(qids, qid_cwid_rmat, select_pos_func,
                                                                               qid_term_idf, qid_cwid_rqexpmat, \

@@ -173,12 +173,12 @@ def pred(_log, _config,_srcList,_query_idf):
     src_sim_doc_array = dict()
     src_sim_topic_array = dict()
     import ast
-
+    sim_array = {}
     for src in srcList :
         src_cwid.append(src.f_idx_string)
-        src_sim_doc_array[src.f_idx_string] = ast.literal_eval(src.s_sim_cos_doc)
-        src_sim_topic_array[src.f_idx_string] = ast.literal_eval(src.s_sim_cos_doc)
-
+        sim_array[src.f_idx_string] = ast.literal_eval(src.s_sim_cos_doc)
+    src_sim_doc_array[301] = sim_array[src.f_idx_string]
+    src_sim_topic_array[301] = sim_array[src.f_idx_string]
     qid_cwid_label[301] = src_cwid
     # print("==> qid_cwid_label :",qid_cwid_label)
     # print("==> qid_cwid_label[301] :", qid_cwid_label[301])

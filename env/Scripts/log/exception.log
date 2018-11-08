@@ -1,0 +1,65 @@
+2018-11-05 01:37:37,880 Traceback (most recent call last):
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1791, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1774, in raise_routing_exception
+    raise request.routing_exception
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/ctx.py", line 336, in match_request
+    self.url_adapter.match(return_rule=True)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/werkzeug/routing.py", line 1581, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+
+2018-11-05 01:37:37,888 Traceback (most recent call last):
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1791, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1774, in raise_routing_exception
+    raise request.routing_exception
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/ctx.py", line 336, in match_request
+    self.url_adapter.match(return_rule=True)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/werkzeug/routing.py", line 1581, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1974, in make_response
+    rv = self.response_class.force_type(rv, request.environ)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/werkzeug/wrappers.py", line 921, in force_type
+    response = BaseResponse(*_run_wsgi_app(response, environ))
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/werkzeug/wrappers.py", line 59, in _run_wsgi_app
+    return _run_wsgi_app(*args)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/werkzeug/test.py", line 923, in run_wsgi_app
+    app_rv = app(environ, start_response)
+TypeError: 'int' object is not callable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask_restful/__init__.py", line 273, in error_router
+    return original_handler(e)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask_cors/extension.py", line 161, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1982, in make_response
+    reraise(TypeError, new_error, sys.exc_info()[2])
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/_compat.py", line 34, in reraise
+    raise value.with_traceback(tb)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/flask/app.py", line 1974, in make_response
+    rv = self.response_class.force_type(rv, request.environ)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/werkzeug/wrappers.py", line 921, in force_type
+    response = BaseResponse(*_run_wsgi_app(response, environ))
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/werkzeug/wrappers.py", line 59, in _run_wsgi_app
+    return _run_wsgi_app(*args)
+  File "/home/ubuntu/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/werkzeug/test.py", line 923, in run_wsgi_app
+    app_rv = app(environ, start_response)
+TypeError: 'int' object is not callable
+The view function did not return a valid response. The return type must be a string, tuple, Response instance, or WSGI callable, but it was a int.
+

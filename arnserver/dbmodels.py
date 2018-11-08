@@ -12,6 +12,7 @@ class TB_FILES(db.Model):
         'schema': 'db_search2'
     }
     idx = db.Column('idx', db.Integer, primary_key=True)
+    f_group_idx = db.Column('f_group_idx', db.Integer)
     f_idx_string = db.Column('f_idx_string', db.String(50))
     f_type = db.Column('f_type', db.Integer)
     f_topic = db.Column('f_topic', db.String(1024))
@@ -43,10 +44,12 @@ class TB_KEYWORD(db.Model):
         'schema': 'db_search2'
     }
     idx = db.Column('idx', db.Integer, primary_key=True)
+    f_group_idx = db.Column('f_group_idx', db.Integer)
     f_idx_string = db.Column('f_idx_string', db.String(50))
     fk_f_idx = db.Column('fk_f_idx', db.Integer)
     k_word = db.Column('k_word', db.String(1024))
-    k_idf = db.Column('k_idf', db.String(1024))
+    k_topic_idf = db.Column('k_topic_idf', db.String(1024))
+    k_desc_idf = db.Column('k_desc_idf', db.String(1024))
     created_date = db.Column('created_date', db.DateTime)
 
 class TB_SIM_COS(db.Model):
@@ -55,10 +58,20 @@ class TB_SIM_COS(db.Model):
         'schema': 'db_search2'
     }
     idx = db.Column('idx', db.Integer, primary_key=True)
+    f_group_idx = db.Column('f_group_idx', db.Integer)
     f_idx_string = db.Column('f_idx_string', db.String(50))
     fk_k_idx = db.Column('fk_k_idx', db.Integer)
     fk_f_idx = db.Column('fk_f_idx', db.Integer)
     k_word = db.Column('k_word', db.String(1024))
-    s_sim_cos_topic = db.Column('s_sim_cos_topic', db.String(1024*100))
-    s_sim_cos_doc = db.Column('s_sim_cos_doc', db.String(1024*100))
+    s_sim_cos_topic = db.Column('s_sim_cos_topic', db.String(1024*50000))
+    s_sim_cos_doc = db.Column('s_sim_cos_doc', db.String(1024*50000))
+    label = db.Column('label', db.Integer)
     created_date = db.Column('created_date', db.DateTime)
+
+class TB_GROUP(db.Model):
+    __tablename__ = 'tb_group'
+    __table_args__ = {
+        'schema': 'db_search2'
+    }
+    idx = db.Column('idx', db.Integer, primary_key=True)
+    group_name = db.Column('group_name', db.String(50))

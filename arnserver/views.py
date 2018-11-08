@@ -47,6 +47,7 @@ import math
 import glob
 import yake
 import csv
+import ast
 from .pred_per_epoch import *
 from .train_model import  *
 PRINT_LOG = True
@@ -443,10 +444,11 @@ class LoadSrcFile(Resource):
                 result_list.append(obj)
         return result_list
 
-    def insert_file_info(self,f_idx_string,f_file_path,f_doc,f_topic,f_doc_words,f_topic_words):
+    def insert_file_info(self,f_group_idx,f_idx_string,f_file_path,f_doc,f_topic,f_doc_words,f_topic_words):
         db.session.query(TB_FILES).filter_by(f_idx_string=f_idx_string).delete()
         db.session.commit()
         new_file_info = TB_FILES()
+        new_file_info.f_group_idx = f_group_idx
         new_file_info.f_idx_string = f_idx_string
         new_file_info.f_file_path = f_file_path
         new_file_info.f_type= 0
@@ -460,33 +462,38 @@ class LoadSrcFile(Resource):
         print("new_file_info.idx : ",new_file_info.idx)
         return new_file_info.idx
 
-    def insert_keyword(self,f_idx_string,fk_f_idx,k_word,k_idf):
-        db.session.query(TB_KEYWORD).filter_by(f_idx_string=f_idx_string).filter_by(k_word=k_word).delete()
+    def insert_keyword(self,f_group_idx,f_idx_string,fk_f_idx,k_word,k_topic_idf,k_desc_idf):
+        db.session.query(TB_KEYWORD).filter_by(f_group_idx=f_group_idx).filter_by(f_idx_string=f_idx_string).filter_by(k_word=k_word).delete()
         db.session.commit()
         new_keyword = TB_KEYWORD()
+        new_keyword.f_group_idx = f_group_idx
         new_keyword.f_idx_string = f_idx_string
         new_keyword.fk_f_idx = fk_f_idx
         new_keyword.k_word = k_word
-        new_keyword.k_idf = k_idf
+        new_keyword.k_topic_idf = str(k_topic_idf)
+        new_keyword.k_desc_idf = str(k_desc_idf)
         new_keyword.created_date = datetime.utcnow()
         db.session.add(new_keyword)
         db.session.commit()
-        print("new_keyword.idx : ",new_keyword.idx)
         return new_keyword.idx
 
-    def insert_sim_cos(self,f_idx_string,k_word,fk_k_idx,fk_f_idx,s_sim_cos_doc,s_sim_cos_topic):
-        db.session.query(TB_SIM_COS).filter_by(f_idx_string=f_idx_string).filter_by(k_word=k_word).delete()
+    def insert_sim_cos(self,f_group_idx,f_idx_string,k_word,fk_k_idx,fk_f_idx,s_sim_cos_doc,s_sim_cos_topic,label):
+        db.session.query(TB_SIM_COS).filter_by(f_group_idx=f_group_idx).filter_by(f_idx_string=f_idx_string).filter_by(k_word=k_word).delete()
         db.session.commit()
         new_sim_cos = TB_SIM_COS()
+        new_sim_cos.f_group_idx = f_group_idx
         new_sim_cos.f_idx_string = f_idx_string
+        new_sim_cos.fk_k_idx = fk_k_idx
         new_sim_cos.fk_f_idx = fk_f_idx
         new_sim_cos.k_word = k_word
-        new_sim_cos.s_sim_cos_doc = str(s_sim_cos_doc)
-        new_sim_cos.s_sim_cos_topic = str(s_sim_cos_topic)
+        print("s_sim_cos_doc len : " , len(json.dumps(s_sim_cos_doc)))
+        print("s_sim_cos_topic len : ", len(json.dumps(s_sim_cos_topic)))
+        new_sim_cos.s_sim_cos_doc = json.dumps(s_sim_cos_doc)
+        new_sim_cos.s_sim_cos_topic = json.dumps(s_sim_cos_topic)
+        new_sim_cos.label = label
         new_sim_cos.created_date = datetime.utcnow()
         db.session.add(new_sim_cos)
         db.session.commit()
-        print("new_sim_cos.idx : ",new_sim_cos.idx)
         return new_sim_cos.idx
 
 
@@ -511,6 +518,7 @@ class LoadSrcFile(Resource):
         doc_files = glob.glob(input_doc_dir)
 
         print("doc_file len : ", len(doc_files))
+        group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
         cur = 0
         for f in doc_files:
             # if cur > 0:
@@ -533,13 +541,14 @@ class LoadSrcFile(Resource):
             # print("topics_ko : ", topics_ko)
             sim_list = self.getSimList(keywords.split(','),docs_ko,topics_ko)
             # print("sim_list : ",sim_list)
-            fk_f_idx = self.insert_file_info(filename,doc_filepath,doc_ngrams,topic_ngrams,docs_ko,topics_ko)
+
+            fk_f_idx = self.insert_file_info(group.idx,filename,doc_filepath,doc_ngrams,topic_ngrams,docs_ko,topics_ko)
             for sim in sim_list :
                 print("key : ",sim['key'])
                 print("query_idf : ", sim['query_idf'])
-                f_k_idx = self.insert_keyword(filename,fk_f_idx,sim['key'],sim['query_idf'])
+                f_k_idx = self.insert_keyword(group.idx,filename,fk_f_idx,sim['key'],sim['query_idf'],sim['query_idf'])
                 print("f_k_idx : ", f_k_idx)
-                f_s_idx = self.insert_sim_cos(filename,sim['key'],fk_f_idx,f_k_idx,sim['sim_cos'],sim['topic_cos'])
+                f_s_idx = self.insert_sim_cos(group.idx,filename,sim['key'],fk_f_idx,f_k_idx,sim['sim_cos'],sim['topic_cos'])
                 print("f_s_idx : ", f_s_idx)
 
 
@@ -562,13 +571,12 @@ class SearchQuery(Resource):
 
     def __init__(self):
         self.parser = reqparse.RequestParser()
+        self.parser.add_argument("group_path", type=str, location="json")
         self.parser.add_argument("querystring", type=str, location="json")
-        self.parser.add_argument("type", type=str, location="json")
 
         self.token_manager = TokenManager.instance()
-
+        self.group_path = self.parser.parse_args()["group_path"]
         self.querystring = self.parser.parse_args()["querystring"]
-        self.type = self.parser.parse_args()["type"]
         super(SearchQuery, self).__init__()
 
     def post(self):
@@ -578,7 +586,8 @@ class SearchQuery(Resource):
         print("querystring :",self.querystring)
         sim_cos_list = TB_SIM_COS.query.all()
         print("sim_cos_list len :", len(sim_cos_list))
-        query_sim_cos = TB_KEYWORD.query.filter_by(k_word=self.querystring).first()
+        group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
+        query_sim_cos = TB_KEYWORD.query.filter_by(f_group_idx=group.idx).filter_by(k_word=self.querystring).first()
         print("query_sim_cos :", query_sim_cos.k_idf)
         print("sim_cos_list len :", len(sim_cos_list))
         objParam= {
@@ -617,7 +626,7 @@ class SearchQuery(Resource):
         # print("rank_value_dict :", rank_value_dict)
         for rank in range(1,len(rank_idx_dict)) :
             print("s_idx : ",rank_idx_dict[rank], ",values : ",rank_value_dict[rank])
-            query = "SELECT idx,f_topic,substring(f_doc,1,80) as f_doc FROM tb_files WHERE f_idx_string = '{0}'  LIMIT 1".format(rank_idx_dict[rank])
+            query = "SELECT idx,f_topic,substring(f_doc,1,80) as f_doc FROM tb_files WHERE f_group_idx={0} and f_idx_string = '{1}'  LIMIT 1".format(group.idx,rank_idx_dict[rank])
             results = TB_FILES.query.from_statement(query).first()
             obj = {
                 'f_idx_string':rank_idx_dict[rank],
@@ -644,41 +653,49 @@ class Trainning(Resource):
 
     def __init__(self):
         self.parser = reqparse.RequestParser()
+        self.parser.add_argument("group_path", type=str, location="json")
         self.parser.add_argument("epoch", type=str, location="json")
         self.parser.add_argument("squery_count", type=str, location="json")
 
         self.token_manager = TokenManager.instance()
-
+        self.group_path = self.parser.parse_args()["group_path"]
         self.epoch = self.parser.parse_args()["epoch"]
         self.squery_count = self.parser.parse_args()["squery_count"]
         super(Trainning, self).__init__()
 
     def post(self):
         # try:
-        objects = []
+        query_objects={}
+
         Log("[Trainning START...]")
-        print("epoch :",self.epoch,",squery_count :",self.squery_count)
-
-        query_sim_cos_list = TB_KEYWORD.query.limit(self.squery_count).all()
+        print("group_path:",self.group_path,",epoch :",self.epoch,",squery_count :",self.squery_count)
+        group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
+        query_sim_cos_list = TB_KEYWORD.query.filter_by(f_group_idx=group.idx).order_by('f_idx_string').limit(self.squery_count).all()
+        cur = 1
         for query_sim in query_sim_cos_list :
-            sim_cos_list = TB_SIM_COS.query.filter_by(f_idx_string=query_sim.f_idx_string).all()
+            objects = []
+            print("query_sim.k_word : ", query_sim.k_word, ",query_sim f_idx_string:",query_sim.f_idx_string,",group.idx:",group.idx)
+            sim_cos_list = TB_SIM_COS.query.filter_by(f_group_idx=group.idx).filter_by(k_word=query_sim.k_word).all()
             for sim_cos in sim_cos_list :
                 obj = {
-                    'label':'1',
-                    'sim_doc' :sim_cos.s_sim_cos_doc,
-                    'sim_topic':sim_cos.s_sim_cos_doc
+                    'f_idx_string': sim_cos.f_idx_string,
+                    "sim_doc": np.array(ast.literal_eval(sim_cos.s_sim_cos_topic), dtype=float),
+                    "sim_topic": np.array(ast.literal_eval(sim_cos.s_sim_cos_doc), dtype=float),
+                    'label': sim_cos.label,
                 }
+                # print("obj label : ",obj)
                 objects.append(obj)
-            sim_cos_list = TB_SIM_COS.query.filter(TB_SIM_COS.f_idx_string!=query_sim.f_idx_string).limit(10).all()
-            for sim_cos in sim_cos_list :
-                obj = {
-                    'label':'0',
-                    'sim_doc' :sim_cos.s_sim_cos_doc,
-                    'sim_topic':sim_cos.s_sim_cos_doc
-                }
-                objects.append(obj)
-
-        print("objects len:", len(objects))
+            query_obj = {
+                "k_word":query_sim.k_word,
+                "k_topic_idf":np.array(ast.literal_eval(query_sim.k_topic_idf), dtype=float),
+                "k_desc_idf": np.array(ast.literal_eval(query_sim.k_desc_idf), dtype=float),
+                "doc_matrix":objects
+            }
+            # print("query_obj : ", query_obj)
+            query_objects[cur] = query_obj
+            print("cur : ", cur, ", query_objects[cur] :" , query_objects[cur])
+            cur += 1
+        # print("objects len:", len(objects))
         objParam= {
             'expname': 'pacrrpub',
             'train_years': 'wt09_10',
@@ -689,7 +706,7 @@ class Trainning(Resource):
             'binmat': False,
             'context': False,
             'combine': 16,
-            'iterations': 10,
+            'iterations': self.epoch,
             'shuffle': False,
             'parentdir': '/home/ubuntu/copacrr',
             'modelfn':'pacrr',
@@ -707,32 +724,234 @@ class Trainning(Resource):
             'cascade':''
         }
         print("param obj :",objParam)
-        train_model(_log=None, _config=objParam, _objects=objects)
-        # rank_idx_dict,rank_value_dict = pred(_log=None,_config=objParam,_srcList=sim_cos_list,_query_idf=query_sim_cos)
-        # # print("rank_idx_dict :",rank_idx_dict)
-        # # print("rank_value_dict :", rank_value_dict)
-        # for rank in range(1,len(rank_idx_dict)) :
-        #     print("s_idx : ",rank_idx_dict[rank], ",values : ",rank_value_dict[rank])
-        #     query = "SELECT idx,f_topic,substring(f_doc,1,80) as f_doc FROM tb_files WHERE f_idx_string = '{0}'  LIMIT 1".format(rank_idx_dict[rank])
-        #     results = TB_FILES.query.from_statement(query).first()
-        #     obj = {
-        #         'f_idx_string':rank_idx_dict[rank],
-        #         'f_topic':results.f_topic,
-        #         'f_doc':results.f_doc,
-        #         'rank':str(rank)
-        #     }
-        #     objects.append(obj)
-        # Log("[SearchQuery SUCCESS]")
-        # return result(200, "SearchQuery successful.", objects, None, "by sisung ")
+        train_model(_log=None, _config=objParam, _query_objects=query_objects)
+        Log("[SearchQuery SUCCESS]")
+        return result(200, "SearchQuery successful.", None, None, "by sisung ")
         # except:
         #     Log("[SearchQuery exception]")
         #     return result(400, "SearchQuery exception ", None, None, "by sisung ")
-        return result(400, "Trainning failed.", objects, None, "by sisung")
+        # return result(400, "Trainning failed.", None, None, "by sisung")
+
+
+@app.route('/')
+class LoadSrcFile2(Resource):
+    """
+    [ LoadSrcFile2 ]
+    For Mobile Auth
+    @ GET : Returns Result
+    by sisung
+    """
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        print("LoadSrcFile2 init")
+        self.parser.add_argument("group_path", type=str, location="json")
+
+        self.token_manager = TokenManager.instance()
+        print("self.parser.parse_args() : ",self.parser.parse_args())
+        self.group_path = self.parser.parse_args()["group_path"]
+        self.t = Okt()
+        self.ha = Hannanum()
+        super(LoadSrcFile2, self).__init__()
+
+    def insert_file_info(self,f_group_idx,f_idx_string,f_file_path,f_doc,f_topic,f_doc_words,f_topic_words):
+        db.session.query(TB_FILES).filter_by(f_idx_string=f_idx_string).delete()
+        db.session.commit()
+        new_file_info = TB_FILES()
+        new_file_info.f_group_idx = f_group_idx
+        new_file_info.f_idx_string = f_idx_string
+        new_file_info.f_file_path = f_file_path
+        new_file_info.f_type= 0
+        new_file_info.f_doc = str(f_doc).replace('"', '')
+        new_file_info.f_topic = str(f_topic).replace('"','')
+        new_file_info.f_doc_words = str(f_doc_words)
+        new_file_info.f_topic_words = str(f_topic_words)
+        new_file_info.created_date = datetime.utcnow()
+        db.session.add(new_file_info)
+        db.session.commit()
+        print("new_file_info.idx : ",new_file_info.idx)
+        return new_file_info.idx
+
+    def insert_keyword(self,f_group_idx,f_idx_string,fk_f_idx,k_word,k_topic_idf,k_desc_idf):
+        db.session.query(TB_KEYWORD).filter_by(f_group_idx=f_group_idx).filter_by(f_idx_string=f_idx_string).filter_by(k_word=k_word).delete()
+        db.session.commit()
+        new_keyword = TB_KEYWORD()
+        new_keyword.f_group_idx = f_group_idx
+        new_keyword.f_idx_string = f_idx_string
+        new_keyword.fk_f_idx = fk_f_idx
+        new_keyword.k_word = k_word
+        new_keyword.k_topic_idf = str(k_topic_idf)
+        new_keyword.k_desc_idf = str(k_desc_idf)
+        new_keyword.created_date = datetime.utcnow()
+        db.session.add(new_keyword)
+        db.session.commit()
+        return new_keyword.idx
+
+    def insert_sim_cos(self,f_group_idx,f_idx_string,k_word,fk_k_idx,fk_f_idx,s_sim_cos_doc,s_sim_cos_topic,label):
+        db.session.query(TB_SIM_COS).filter_by(f_group_idx=f_group_idx).filter_by(f_idx_string=f_idx_string).filter_by(k_word=k_word).delete()
+        db.session.commit()
+        new_sim_cos = TB_SIM_COS()
+        new_sim_cos.f_group_idx = f_group_idx
+        new_sim_cos.f_idx_string = f_idx_string
+        new_sim_cos.fk_k_idx = fk_k_idx
+        new_sim_cos.fk_f_idx = fk_f_idx
+        new_sim_cos.k_word = k_word
+        print("s_sim_cos_doc len : " , len(json.dumps(s_sim_cos_doc)))
+        print("s_sim_cos_topic len : ", len(json.dumps(s_sim_cos_topic)))
+        new_sim_cos.s_sim_cos_doc = json.dumps(s_sim_cos_doc)
+        new_sim_cos.s_sim_cos_topic = json.dumps(s_sim_cos_topic)
+        new_sim_cos.label = label
+        new_sim_cos.created_date = datetime.utcnow()
+        db.session.add(new_sim_cos)
+        db.session.commit()
+        return new_sim_cos.idx
+
+
+    def idf(self,index, term):
+        list_count = len(index)
+        find = 0
+        for d in index:
+            if d == term:
+                find += 1
+        if find == 0:
+            return 0
+        return math.log(float(list_count) / find)
+
+    def getDataFromFile(self,dir):
+        doc_files = sorted([fname for fname  in os.listdir(dir) if fname.endswith('.npy')],
+               key=lambda f: int(f.rsplit(os.path.extsep, 1)[0].rsplit(None, 1)[-1]))
+        # print("doc_file len : ", len(doc_files))
+        cur = 0
+        array = {}
+        for f in doc_files:
+            if cur > 5:
+                break
+            cur += 1
+            filename = os.path.basename(f).split('.')[0]
+
+            data = np.load(dir + "/" + f)
+            array[int(filename)] = data.tolist()
+        return array
+
+    def getDataFromFileNotSort(self,dir):
+        doc_files = glob.glob(dir + "/*.npy")
+        cur = 0
+        array = {}
+        for f in doc_files:
+            if cur > 100:
+                break
+            cur += 1
+            filename = os.path.basename(f).split('.')[0]
+            # print("filename : ",filename,"f : ",f)
+            data = np.load(f)
+            # print("data : ",data)
+            print("dir : ",dir , ",file : ", filename, ",len : ",os.path.getsize (f))
+            array[str(filename)] = data.tolist()
+            # print("data 1: ",array[str(filename)])
+        return array
+
+    def post(self):
+        # try:
+        print("LoadSrcFile start")
+
+
+        def getKobilFilePath(path) :
+            return path.split('../data/')[1]
+
+        fname = '/home/ubuntu/copacrr/data/qrels.adhoc.6y'
+        array_adhoc = {}
+        with open(fname) as f:
+            content = f.readlines()
+            for line in content:
+                params = line.split(' ')
+                # print("params : ",params)
+                if len(params) > 2 :
+                    array_adhoc[params[2]] = {
+                        'qid':params[0],
+                        'label':params[3].replace('\n','')
+                    }
+        # print("array_adhoc :",array_adhoc)
+
+        #
+        input_doc_dir = '/local/var/tmp/ubuntu/cosine/query_idf/topic_term_idf'
+        array_idf_topic = self.getDataFromFile(input_doc_dir)
+        input_doc_dir = '/local/var/tmp/ubuntu/cosine/query_idf/desc_term_idf'
+        array_idf_desc = self.getDataFromFile(input_doc_dir)
+
+        print("array_idf_topic:",array_idf_topic)
+        print("array_idf_desc:", array_idf_desc)
+        array_doc_topic = {}
+        array_doc_desc = {}
+        print("array_idf_topic len :",len(array_idf_topic))
+        for idx in range(1,len(array_idf_topic) + 1) :
+            input_doc_dir = '/local/var/tmp/ubuntu/cosine/topic_doc_mat/' + str(idx)
+            doc_topic = self.getDataFromFileNotSort(input_doc_dir)
+            array_doc_topic[idx] = doc_topic
+            input_doc_dir = '/local/var/tmp/ubuntu/cosine/desc_doc_mat/' + str(idx)
+            doc_desc = self.getDataFromFileNotSort(input_doc_dir)
+            array_doc_desc[idx] = doc_desc
+        #
+        # print("array_doc_topic:",array_doc_topic)
+        # print("array_doc_desc:", array_doc_desc[1])
+        #
+        group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
+        for idx in range(1, len(array_idf_topic) + 1):
+            fk_f_idx = self.insert_file_info(group.idx,str(idx),'','','','','')
+            print("idx : ",idx)
+            print("fk_f_idx : ", fk_f_idx)
+            print("str(idx) :",str(idx),",fk_f_idx:",fk_f_idx,",array_idf_topic[idx] : ",array_idf_topic[idx],",array_idf_desc[idx]:",array_idf_desc[idx])
+            f_k_idx = self.insert_keyword(group.idx,str(idx),fk_f_idx,str(idx),array_idf_topic[idx],array_idf_desc[idx])
+            print("f_k_idx : ", f_k_idx)
+            for topic in array_doc_topic[idx]:
+                # print("array_doc_topic : ",array_doc_topic[idx][topic])
+                label = array_adhoc[topic]['label']
+                f_s_idx = self.insert_sim_cos(group.idx, topic,str(idx),f_k_idx,fk_f_idx,array_doc_topic[idx][topic],array_doc_desc[idx][topic],int(label))
+
+        objects = []
+        Log("[LoadSrcFile SUCCESS]")
+        return result(200, "LoadSrcFile successful.", objects, None, "by sisung ")
+        # except:
+        #     Log("[Login exception]")
+        #     return result(400, "Login exception ", None, None, "by sisung ")
+        # return result(400, "Login failed.", objects, None, "by sisung")
+
+@app.route('/')
+class DocDetail(Resource):
+    """
+    [ DocDetail ]
+    For Mobile Auth
+    @ GET : Returns Result
+    by sisung
+    """
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        print("DocDetail init")
+        self.parser.add_argument("group_path", type=str, location="json")
+        self.parser.add_argument("f_idx_string", type=str, location="json")
+        self.token_manager = TokenManager.instance()
+        print("self.parser.parse_args() : ",self.parser.parse_args())
+        self.group_path = self.parser.parse_args()["group_path"]
+        self.f_idx_string = self.parser.parse_args()["f_idx_string"]
+        super(DocDetail, self).__init__()
+
+    def post(self):
+        # try:
+        print("DocDetail start")
+        group = TB_GROUP.query.filter_by(group_name=self.group_path).first()
+
+        file = TB_FILES.query.filter_by(f_group_idx=group.idx).first()
+        if file is None :
+            return result(200, "DocDetail successful.", file.f_doc, None, "by sisung ")
+        return result(400, "DocDetail not founded.", None, None, "by sisung ")
+
 api = Api(app)
 
 # Basic URI
 # 로그인
 api.add_resource(Login, '/Login')
 api.add_resource(LoadSrcFile, '/LoadSrcFile')
+api.add_resource(LoadSrcFile2, '/LoadSrcFile2')
 api.add_resource(SearchQuery, '/SearchQuery')
 api.add_resource(Trainning, '/Trainning')
+api.add_resource(DocDetail, '/DocDetail')

@@ -46,19 +46,19 @@ class MODEL_BASE:
         if not skip_check:
             if params != self.string_to_params(s, True):
                 d = self.string_to_params(s, True)
-                print("d : ",d)
-                for k, v in d.items():
-                    print("=> 1k :",k,",value :",v)
-                    if k not in params or params.get(k) != v:
-                        print("%s k=%s vs. k=%s" % (k, params.get(k), d[k]))
-                        print(type(params.get(k)), type(d[k]))
-                for k, v in params.items():
-                    print("=> 2k :", k, ",value :", v)
-                    if k not in d or d.get(k) != v:
-                        print("%s k=%s vs. k=%s" % (k, params[k], d.get(k)))
-                        print(type(params[k]), type(d.get(k)))
+                # print("d : ",d)
+                # for k, v in d.items():
+                #     # print("=> 1k :",k,",value :",v)
+                #     if k not in params or params.get(k) != v:
+                #         # print("%s k=%s vs. k=%s" % (k, params.get(k), d[k]))
+                #         print(type(params.get(k)), type(d[k]))
+                # for k, v in params.items():
+                #     # print("=> 2k :", k, ",value :", v)
+                #     if k not in d or d.get(k) != v:
+                #         # print("%s k=%s vs. k=%s" % (k, params[k], d.get(k)))
+                #         print(type(params[k]), type(d.get(k)))
                 # raise RuntimeError("self.string_to_params(s, True)")
-        print("s : ",s)
+        # print("s : ",s)
         return s
 
 
@@ -70,7 +70,7 @@ class MODEL_BASE:
         out = {'modelfn': name2file[modelname]}
         for pstr in params:
             k, v = pstr.split("-")
-            print("check : ",k,v)
+            # print("check : ",k,v)
             if (k == "ut" or k == "ud") and _boolstr(v):
                 continue
             assert k in self.params, "invalid key '%s' encountered in string: %s" % (k, s)

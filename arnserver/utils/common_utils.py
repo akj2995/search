@@ -16,7 +16,7 @@ def read_qrel(qrelfile, qids, include_spam):
                 if not include_spam:
                     if label < 0:
                         continue
-                print("qd,cwid,label:",qid,cwid,label)
+                # print("qd,cwid,label:",qid,cwid,label)
                 if qid not in qid_cwid_label:
                     qid_cwid_label[qid]=dict()
                 qid_cwid_label[qid][cwid]=label
